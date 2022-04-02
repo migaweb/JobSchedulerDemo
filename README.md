@@ -34,10 +34,10 @@ Verbose (--verbose) is optional.
 
 ```
 Add migration
-dotnet ef migrations add Initial --context JobsDbContext -s ..\..\Web\Server --verbose
+dotnet ef migrations add Initial --context ScheduledJobsDbContext -s ..\..\UI\JobSchedulerDemo.ClientUI\Server\ --verbose
 
 Update database
-dotnet ef database update --context JobsDbContext -s ..\..\Web\Server --verbose
+dotnet ef database update --context ScheduledJobsDbContext -s ..\..\UI\JobSchedulerDemo.ClientUI\Server\ --verbose
 ```
 
 ## Third party dependencies

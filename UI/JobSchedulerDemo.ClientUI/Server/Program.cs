@@ -1,10 +1,16 @@
+using JobSchedulerDemo.Application.Extensions;
 using JobSchedulerDemo.Infrastructure.Configuration;
+using JobSchedulerDemo.Persistence.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.ConfigureMassTransitJobPublisher(builder.Configuration["RabbitMQHost"]);
+
+builder.Services.ConfigureApplicationServices();
+
+builder.Services.ConfigurePersistenceServices(builder.Configuration);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
@@ -22,6 +28,8 @@ else
   // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
   app.UseHsts();
 }
+
+app.CreateScheduledJobsDatabase(app.Services);
 
 app.UseHttpsRedirection();
 

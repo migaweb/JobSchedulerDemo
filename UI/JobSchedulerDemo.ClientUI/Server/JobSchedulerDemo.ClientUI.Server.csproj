@@ -11,13 +11,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+	<PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="6.0.3" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0">
+		<PrivateAssets>all</PrivateAssets>
+		<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	</PackageReference>
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\JobSchedulerDemo.Application\JobSchedulerDemo.Application.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\JobSchedulerDemo.Infrastructure\JobSchedulerDemo.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\Infrastructure\JobSchedulerDemo.Persistence\JobSchedulerDemo.Persistence.csproj" />
     <ProjectReference Include="..\Client\JobSchedulerDemo.ClientUI.Client.csproj" />
     <ProjectReference Include="..\Shared\JobSchedulerDemo.ClientUI.Shared.csproj" />
   </ItemGroup>
