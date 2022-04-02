@@ -45,5 +45,5 @@ The following are third-party libraries used by the different apps and their res
 ### .NET
 - AutoMapper, [MIT](https://mit-license.org/)
 - MassTransit, [Apache-2.0](https://licenses.nuget.org/Apache-2.0)
-- Hangfire, [MIT](https://raw.githubusercontent.com/HangfireIO/Hangfire/master/LICENSE.md)
+- Hangfire, [LGPL](https://raw.githubusercontent.com/HangfireIO/Hangfire/master/LICENSE.md)
 - RabbitMQ, [Mozilla Public License v 2.0](https://www.rabbitmq.com/mpl.html)
