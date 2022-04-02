@@ -1,0 +1,40 @@
+version: '3.4'
+
+services:
+
+  hangfiredb:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+
+  rabbitmq:
+    image: rabbitmq:3-management
+
+  jobschedulerdemo.hangfiredashboard:
+    image: ${DOCKER_REGISTRY-}jobschedulerdemohangfiredashboard
+    build:
+      context: .
+      dockerfile: UI/JobSchedulerDemo.HangfireDashboard/Dockerfile
+
+  jobschedulerdemo.signalrhub:
+    image: ${DOCKER_REGISTRY-}jobschedulerdemosignalrhub
+    build:
+      context: .
+      dockerfile: UI/JobSchedulerDemo.SignalRHub/Dockerfile
+
+  jobschedulerdemo.jobservice1:
+    image: ${DOCKER_REGISTRY-}jobschedulerdemojobservice
+    build:
+      context: .
+      dockerfile: UI/JobSchedulerDemo.JobService/Dockerfile
+
+  jobschedulerdemo.jobservice2:
+    image: ${DOCKER_REGISTRY-}jobschedulerdemojobservice
+    build:
+      context: .
+      dockerfile: UI/JobSchedulerDemo.JobService/Dockerfile
+
+  jobschedulerdemo.clientui.server:
+    image: ${DOCKER_REGISTRY-}jobschedulerdemoclientuiserver
+    build:
+      context: .
+      dockerfile: UI/JobSchedulerDemo.ClientUI/Server/Dockerfile
+

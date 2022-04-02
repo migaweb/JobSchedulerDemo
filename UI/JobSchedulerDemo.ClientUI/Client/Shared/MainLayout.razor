@@ -1,0 +1,42 @@
+﻿@using JobSchedulerDemo.Application.MessageContracts.MQ
+@inherits LayoutComponentBase
+
+@inject HttpClient Http
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <button @onclick=StartContractJob>Contract</button>
+            <button @onclick=StartInvoiceJob>Invoice</button>
+            <button @onclick=StartPreplanningJob>Preplanning</button>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+@code {
+    async Task StartContractJob() {
+        await StartJob(new JobMessage(DateTime.Now.Ticks.ToString(), "Contract"));
+    }
+
+    async Task StartInvoiceJob() {
+        await StartJob(new JobMessage(DateTime.Now.Ticks.ToString(), "Invoice"));
+    }
+
+    async Task StartPreplanningJob() {
+        await StartJob(new JobMessage(DateTime.Now.Ticks.ToString(), "Preplanning"));
+    }
+
+    async Task StartJob(JobMessage job)
+    {
+        await Http.PostAsJsonAsync("Jobs", job);
+    }
+
+}

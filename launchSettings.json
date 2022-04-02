@@ -1,0 +1,19 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "composeLaunchAction": "LaunchBrowser",
+      "composeLaunchServiceName": "jobschedulerdemo.clientui.server",
+      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "hangfiredb": "StartWithoutDebugging",
+        "jobschedulerdemo.jobservice1": "StartDebugging",
+        "rabbitmq": "StartWithoutDebugging",
+        "jobschedulerdemo.hangfiredashboard": "StartDebugging",
+        "jobschedulerdemo.signalrhub": "StartDebugging",
+        "jobschedulerdemo.clientui.server": "StartDebugging"
+      }
+    }
+  }
+}

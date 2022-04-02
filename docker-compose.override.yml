@@ -1,0 +1,68 @@
+version: '3.4'
+
+services:
+
+  hangfiredb:
+    container_name: hangfiredb
+    environment:
+        SA_PASSWORD: "abc1234_Q"
+        ACCEPT_EULA: "Y"
+    restart: always
+    ports:
+        - "1433"
+
+  rabbitmq:
+    hostname: rabbit1
+    ports:
+      - 15672:15672
+      - 5672:5672
+    labels:
+      NAME: some-rabbit
+
+  jobschedulerdemo.hangfiredashboard:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    depends_on:
+      - hangfiredb
+    ports:
+      - "8002:80"
+      - "4002:443"
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  jobschedulerdemo.signalrhub:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "8003:80"
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  jobschedulerdemo.jobservice1:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - jobschedulerdemo.hangfiredashboard
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  jobschedulerdemo.jobservice2:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - jobschedulerdemo.hangfiredashboard
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  jobschedulerdemo.clientui.server:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - "8001:80"
+      - "4001:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
