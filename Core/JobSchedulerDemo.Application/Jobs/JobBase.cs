@@ -1,5 +1,6 @@
 ﻿using Hangfire.Server;
 using JobSchedulerDemo.Application.Contracts.Infrastructure;
+using JobSchedulerDemo.Application.Dtos;
 
 namespace JobSchedulerDemo.Application.Jobs
 {
@@ -32,7 +33,14 @@ namespace JobSchedulerDemo.Application.Jobs
 
     private void PushStatus(string id, string name, string status)
     {
-      _pushMessageSender.SendStatus(new MessageContracts.Hub.PushMessage(id, name, status, DateTime.Now));
+      _pushMessageSender.SendStatus(
+        new MessageContracts.Hub.PushMessage(
+          Int32.Parse(id), 
+          name, 
+          status, 
+          DateTime.Now,
+          null, null, null, null, null
+          ));
     }
   }
 }

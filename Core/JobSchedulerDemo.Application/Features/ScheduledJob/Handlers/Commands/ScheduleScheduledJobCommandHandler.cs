@@ -60,7 +60,13 @@ namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Commands
 
       response.ScheduledJobDto = _mapper.Map<ScheduledJobDto>(scheduledJob);
 
-      _pushMessageSender.SendStatus(new PushMessage(scheduledJob.JobId, scheduledJob.Name, $"Scheduled with JobId - {scheduledJob.JobId}", scheduledJob.Scheduled.Value));
+      _pushMessageSender.SendStatus(
+        new PushMessage(
+          scheduledJob.Id, 
+          scheduledJob.Name,
+          ScheduledJobStatusEnum.Scheduled.ToString(), 
+          scheduledJob.Scheduled.Value,
+          scheduledJob.JobId, scheduledJob.Scheduled, scheduledJob.Started, scheduledJob.Completed, scheduledJob.Error));
 
       return response;
     }

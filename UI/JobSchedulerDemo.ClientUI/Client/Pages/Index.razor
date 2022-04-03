@@ -5,25 +5,7 @@
 <div>IsConnected: @IsConnected</div>
 
 <div>
-    <table style="width:100%">
-        <thead>
-            <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Status</th>
-            <th>Timestamp</th>
-        </tr>
-        </thead>
-        @foreach(var message in Messages.OrderByDescending(e => e.Id))
-        {
-            <tr>
-                <td>@message.Id</td>
-                <td>@message.Name</td>
-                <td>@message.Status</td>
-                <td>@message.Timestamp</td>
-            </tr>
-        }
-    </table>
+    Last message: Id=@PushMessage?.Id &nbsp; @PushMessage?.Status
 </div>
 
 <div>

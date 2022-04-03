@@ -9,7 +9,7 @@ namespace JobSchedulerDemo.ClientUI.Client.Pages
   public partial class Index : ComponentBase, IAsyncDisposable
   {
     [Inject] public HttpClient HttpClient { get; set; } = default!;
-    public List<PushMessage> Messages { get; set; } = new();
+    public PushMessage? PushMessage { get; set; }
     public List<ScheduledJobDto>? ScheduledJobs { get; set; } = new();
     public bool IsConnected => _hubConnection?.State == HubConnectionState.Connected;
 
@@ -27,14 +27,34 @@ namespace JobSchedulerDemo.ClientUI.Client.Pages
       Console.WriteLine("Starting hub at: {0}", "https://localhost:8003/pushmessagehub");
 
       _hubConnection.On<PushMessage>("ReceiveMessage", (message) => {
-        var msg = Messages.Where(e => e.Id == message.Id).FirstOrDefault();
-        Console.WriteLine(message);
-        if (msg == null)
-          Messages.Add(message);
+        Console.WriteLine("Message received!");
+
+        PushMessage = message;
+
+        var scheduledJob = ScheduledJobs?.FirstOrDefault(e => e.Id == message.Id);
+
+        if (scheduledJob != null)
+        {
+          scheduledJob.Error = message.Error;
+          scheduledJob.Status.Status = message.Status;
+          scheduledJob.Scheduled = message.Scheduled;
+          scheduledJob.Started = message.Started;
+          scheduledJob.Completed = message.Completed;
+          scheduledJob.JobId = message.JobId ?? "";
+          scheduledJob.Name = message.Name;
+        }
         else
         {
-          Messages.Remove(msg);
-          Messages.Add(message);
+          ScheduledJobs?.Add(new ScheduledJobDto { 
+            Error = message.Error,
+            Completed = message.Completed,
+            Id = message.Id,
+            JobId = message.JobId ?? "",
+            Name = message.Name,
+            Status = new ScheduledJobStatusDto { Id = 1, Status = message.Status },
+            Scheduled = message.Scheduled,
+            Started = message.Started,
+          });
         }
 
         StateHasChanged();
