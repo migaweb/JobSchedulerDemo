@@ -16,5 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\JobSchedulerDemo.Infrastructure\JobSchedulerDemo.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\JobSchedulerDemo.Persistence\JobSchedulerDemo.Persistence.csproj" />
   </ItemGroup>
 </Project>

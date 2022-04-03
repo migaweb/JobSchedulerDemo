@@ -11,6 +11,7 @@ builder.Services.ConfigureMassTransitJobPublisher(builder.Configuration["RabbitM
 builder.Services.ConfigureApplicationServices();
 
 builder.Services.ConfigurePersistenceServices(builder.Configuration);
+builder.Services.ConfigurePushMessages(builder.Configuration);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

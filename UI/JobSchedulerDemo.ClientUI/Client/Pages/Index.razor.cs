@@ -1,18 +1,27 @@
-﻿using JobSchedulerDemo.Application.MessageContracts.Hub;
+﻿using JobSchedulerDemo.Application.Dtos;
+using JobSchedulerDemo.Application.MessageContracts.Hub;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
+using System.Net.Http.Json;
 
 namespace JobSchedulerDemo.ClientUI.Client.Pages
 {
   public partial class Index : ComponentBase, IAsyncDisposable
   {
+    [Inject] public HttpClient HttpClient { get; set; } = default!;
     public List<PushMessage> Messages { get; set; } = new();
+    public List<ScheduledJobDto>? ScheduledJobs { get; set; } = new();
     public bool IsConnected => _hubConnection?.State == HubConnectionState.Connected;
 
     private HubConnection? _hubConnection;
 
     protected override async Task OnInitializedAsync()
     {
+      var response = await HttpClient.GetAsync("/Jobs");
+
+      if (response.IsSuccessStatusCode)
+        ScheduledJobs = await response.Content.ReadFromJsonAsync<List<ScheduledJobDto>>();
+
       _hubConnection = new HubConnectionBuilder()
         .WithUrl("http://localhost:8003/pushmessagehub").Build();
       Console.WriteLine("Starting hub at: {0}", "https://localhost:8003/pushmessagehub");

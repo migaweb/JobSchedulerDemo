@@ -1,5 +1,7 @@
 
+using JobSchedulerDemo.Application.Extensions;
 using JobSchedulerDemo.Infrastructure.Configuration;
+using JobSchedulerDemo.Persistence.Configurations;
 using IHost = Microsoft.Extensions.Hosting.IHost;
 
 IHost host = Host.CreateDefaultBuilder(args)
@@ -10,6 +12,10 @@ IHost host = Host.CreateDefaultBuilder(args)
       services.ConfigureMassTransitJobConsumer(builder.Configuration["RabbitMQHost"]);
 
       services.ConfigurePushMessages(builder);
+
+      services.ConfigureApplicationServices();
+
+      services.ConfigurePersistenceServices(builder.Configuration);
     })
     .Build();
 

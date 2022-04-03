@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
+using JobSchedulerDemo.Application.Contracts.Infrastructure;
 using JobSchedulerDemo.Application.Contracts.Persistence;
 using JobSchedulerDemo.Application.Dtos;
 using JobSchedulerDemo.Application.Features.ScheduledJob.Requests.Queries;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Queries
 {
@@ -15,10 +11,9 @@ namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Queries
   : ScheduledJobHandlerBase,
   IRequestHandler<GetScheduledJobListRequest, List<ScheduledJobDto>>
   {
-    public GetScheduledJobListRequestHandler(IScheduledJobRepository scheduledJobRepository, IMapper mapper)
-      : base(scheduledJobRepository, mapper)
+    public GetScheduledJobListRequestHandler(IScheduledJobRepository scheduledJobRepository, IJobPublisher publishEndPoint, IMapper mapper)
+      : base(scheduledJobRepository, publishEndPoint, mapper) 
     {
-
     }
 
     public async Task<List<ScheduledJobDto>> Handle(GetScheduledJobListRequest request, CancellationToken cancellationToken)

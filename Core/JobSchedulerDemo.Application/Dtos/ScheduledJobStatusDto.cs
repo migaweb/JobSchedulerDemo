@@ -2,5 +2,5 @@
 
 public class ScheduledJobStatusDto : BaseDto
 {
-  public string Name { get; set; }
+  public string Status { get; set; } = default!;
 }

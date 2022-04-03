@@ -25,3 +25,34 @@
         }
     </table>
 </div>
+
+<div>
+    <table style="width:100%">
+        <thead>
+            <tr>
+            <th>Id</th>
+            <th>JobId</th>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Scheduled</th>
+            <th>Started</th>
+            <th>Completed</th>
+        </tr>
+        </thead>
+        @if (ScheduledJobs != null) 
+        {
+            foreach(var message in ScheduledJobs.OrderByDescending(e => e.Id))
+            {
+                <tr>
+                    <td>@message.Id</td>
+                    <td>@message.JobId</td>
+                    <td>@message.Name</td>
+                    <td>@message.Status?.Status</td>
+                    <td>@message.Scheduled</td>
+                    <td>@message.Started</td>
+                    <td>@message.Completed</td>
+                </tr>
+            }
+        }
+    </table>
+</div>

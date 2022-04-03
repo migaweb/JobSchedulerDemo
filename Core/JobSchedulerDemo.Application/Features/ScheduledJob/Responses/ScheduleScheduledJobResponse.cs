@@ -1,4 +1,4 @@
 ﻿namespace JobSchedulerDemo.Application.Features.ScheduledJob.Responses;
-public class CreateScheduledJobResponse : ScheduledJobBaseResponse
+public class ScheduleScheduledJobResponse : ScheduledJobBaseResponse
 {
 }

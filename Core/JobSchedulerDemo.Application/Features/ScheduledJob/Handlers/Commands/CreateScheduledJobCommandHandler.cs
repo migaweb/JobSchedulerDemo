@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
+using JobSchedulerDemo.Application.Contracts.Infrastructure;
 using JobSchedulerDemo.Application.Contracts.Persistence;
 using JobSchedulerDemo.Application.Dtos;
 using JobSchedulerDemo.Application.Exceptions;
 using JobSchedulerDemo.Application.Features.ScheduledJob.Requests.Commands;
 using JobSchedulerDemo.Application.Features.ScheduledJob.Responses;
+using JobSchedulerDemo.Application.MessageContracts.MQ;
 using JobSchedulerDemo.Application.Validators.ScheduledJob;
-using JobSchedulerDemo.Domain;
 using JobSchedulerDemo.Domain.Enums;
 using MediatR;
 
@@ -14,8 +15,8 @@ namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Commands
   public class CreateScheduledJobCommandHandler : ScheduledJobHandlerBase, 
     IRequestHandler<CreateScheduledJobCommand, CreateScheduledJobResponse>
   {
-    public CreateScheduledJobCommandHandler(IScheduledJobRepository scheduledJobRepository, IMapper mapper)
-      : base(scheduledJobRepository, mapper)  
+    public CreateScheduledJobCommandHandler(IScheduledJobRepository scheduledJobRepository, IJobPublisher publishEndPoint, IMapper mapper)
+      : base(scheduledJobRepository, publishEndPoint, mapper)  
     {
     }
 
@@ -39,7 +40,15 @@ namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Commands
 
       response.ScheduledJobDto = _mapper.Map<ScheduledJobDto>(scheduledJob);
 
+      QueueJob(
+      new JobMessage(response.ScheduledJobDto?.Id.ToString() ?? "Invalid jobId", response.ScheduledJobDto?.Name!));
+
       return response;
+    }
+
+    private void QueueJob(JobMessage jobMessage)
+    {
+      _publishEndPoint.Publish(jobMessage);
     }
   }
 }

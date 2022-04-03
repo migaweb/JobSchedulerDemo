@@ -1,5 +1,6 @@
 ﻿using JobSchedulerDemo.Application.Contracts.Infrastructure;
 using JobSchedulerDemo.Application.Features.ScheduledJob.Requests.Commands;
+using JobSchedulerDemo.Application.Features.ScheduledJob.Requests.Queries;
 using JobSchedulerDemo.Application.MessageContracts.MQ;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -10,14 +11,20 @@ namespace JobSchedulerDemo.ClientUI.Server.Controllers
   [ApiController]
   public class JobsController : ControllerBase
   {
-    private readonly IJobPublisher _publishEndPoint;
+    
     private readonly IMediator _mediator;
 
-    public JobsController(IJobPublisher publishEndPoint, IMediator mediator)
+    public JobsController(IMediator mediator)
     {
-      _publishEndPoint = publishEndPoint;
       _mediator = mediator;
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Get()
+    {
+      return Ok(await _mediator.Send(new GetScheduledJobListRequest()));
+    }
+
     [HttpPost]
     public async Task<IActionResult> Post(JobMessage jobMessage)
     {
@@ -25,12 +32,7 @@ namespace JobSchedulerDemo.ClientUI.Server.Controllers
       request.ScheduledJobDto = new() { Name = jobMessage.Name };
       var scheduledJobDto = await _mediator.Send(request);
 
-      // Should publish the job to queue in the mediator handle method
-
-      jobMessage = new JobMessage(scheduledJobDto?.ScheduledJobDto?.Id.ToString() ?? "Invalid jobId", jobMessage.Name);
-
-      _publishEndPoint.Publish(jobMessage);
-      return Created("", jobMessage);
+      return Created("", scheduledJobDto);
     }
   }
 }
