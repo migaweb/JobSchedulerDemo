@@ -20,5 +20,10 @@ namespace JobSchedulerDemo.Persistence.Repositories
     => await _dbContext.ScheduledJobs.Include(e => e.Status)
                                      .Where(e => !maxCreatedDate.HasValue || e.DateCreated >= maxCreatedDate)
                                      .ToListAsync();
+
+    public async Task<ScheduledJob?> GetByJobIdAsync(string jobId)
+      => await _dbContext.ScheduledJobs.Include(e => e.Status)
+                                       .Where(e => e.JobId == jobId)
+                                       .FirstOrDefaultAsync();
   }
 }

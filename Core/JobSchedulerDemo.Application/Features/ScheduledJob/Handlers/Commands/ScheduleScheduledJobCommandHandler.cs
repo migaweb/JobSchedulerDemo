@@ -83,18 +83,15 @@ namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Commands
       switch (name)
       {
         case nameof(Preplanning):
-          var preplanning = new Preplanning(_pushMessageSender);
-          jobId = BackgroundJob.Schedule(() => preplanning.Run(null), TimeSpan.FromSeconds(timeInSeconds));
+          jobId = BackgroundJob.Schedule<Preplanning>(p => p.Run(null), TimeSpan.FromSeconds(timeInSeconds));
           break;
 
         case nameof(Contract):
-          var contract = new Contract(_pushMessageSender);
-          jobId = BackgroundJob.Schedule(() => contract.Run(null), TimeSpan.FromSeconds(timeInSeconds));
+          jobId = BackgroundJob.Schedule<Contract>(c => c.Run(null), TimeSpan.FromSeconds(timeInSeconds));
           break;
 
         case nameof(Invoice):
-          var invoice = new Invoice(_pushMessageSender);
-          jobId = BackgroundJob.Schedule(() => invoice.Run(null), TimeSpan.FromSeconds(timeInSeconds));
+          jobId = BackgroundJob.Schedule<Invoice>(i => i.Run(null), TimeSpan.FromSeconds(timeInSeconds));
           break;
         default:
           _logger.LogWarning("{Name} is an invalid job.", name);

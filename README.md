@@ -15,6 +15,7 @@ The jobs are scheduled using Hangfire and progress are reported back to the Clie
 - Hangfire
 - MassTransit
 - RabbitMQ
+- Mediatr
 
 ## Architecture
 1. JobService: Receives jobs via RabbitMQ and schedules the job with Hangfire. Can use multiple instances (configured in docker compose files).
@@ -47,3 +48,5 @@ The following are third-party libraries used by the different apps and their res
 - MassTransit, [Apache-2.0](https://licenses.nuget.org/Apache-2.0)
 - Hangfire, [LGPL](https://raw.githubusercontent.com/HangfireIO/Hangfire/master/LICENSE.md)
 - RabbitMQ, [Mozilla Public License v 2.0](https://www.rabbitmq.com/mpl.html)
+- MediatR, [Apache-2.0](https://licenses.nuget.org/Apache-2.0)
+- FluentValidation, [Apache-2.0](https://licenses.nuget.org/Apache-2.0)

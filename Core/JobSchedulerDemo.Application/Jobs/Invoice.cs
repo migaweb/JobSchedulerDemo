@@ -1,18 +1,18 @@
 ﻿using Hangfire.Server;
 using JobSchedulerDemo.Application.Contracts;
-using JobSchedulerDemo.Application.Contracts.Infrastructure;
+using MediatR;
 
 namespace JobSchedulerDemo.Application.Jobs;
 public class Invoice : JobBase, IJob
 {
-  public Invoice(IPushMessageSender pushMessageSender) : base(pushMessageSender)
+  public Invoice(IMediator mediator) : base(mediator)
   {
 
   }
 
-  public async Task Run(PerformContext? context)
+  public new async Task Run(PerformContext? context)
   {
-    await Run(nameof(Invoice), context);
+    await base.Run(context);
   }
 }
 

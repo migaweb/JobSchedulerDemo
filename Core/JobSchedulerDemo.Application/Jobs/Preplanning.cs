@@ -1,17 +1,17 @@
 ﻿using Hangfire.Server;
 using JobSchedulerDemo.Application.Contracts;
-using JobSchedulerDemo.Application.Contracts.Infrastructure;
+using MediatR;
 
 namespace JobSchedulerDemo.Application.Jobs;
 public class Preplanning : JobBase, IJob
 {
-  public Preplanning(IPushMessageSender pushMessageSender) : base(pushMessageSender)
+  public Preplanning(IMediator mediator) : base(mediator)
   {
 
   }
 
-  public async Task Run(PerformContext? context)
+  public new async Task Run(PerformContext? context)
   {
-    await Run(nameof(Preplanning), context);
+    await base.Run(context);
   }
 }

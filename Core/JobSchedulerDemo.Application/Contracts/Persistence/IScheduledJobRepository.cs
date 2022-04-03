@@ -6,4 +6,5 @@ public interface IScheduledJobRepository : IGenericRepository<ScheduledJob>
 {
   Task<IEnumerable<ScheduledJob>> GetAllWithDetailsAsync();
   Task<IEnumerable<ScheduledJob>> GetByMaxCreatedDateAsync(DateTime? maxCreatedDate);
+  Task<ScheduledJob?> GetByJobIdAsync(string jobId);
 }

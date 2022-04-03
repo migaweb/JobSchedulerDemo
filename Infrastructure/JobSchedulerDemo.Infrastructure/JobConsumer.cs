@@ -11,13 +11,11 @@ namespace JobSchedulerDemo.Infrastructure
 {
   public class JobConsumer : IConsumer<JobMessage>
   {
-    private readonly IPushMessageSender _pushMessageSender;
     private readonly IMediator _mediator;
     private readonly ILogger<JobConsumer> _logger;
 
-    public JobConsumer(IPushMessageSender pushMessageSender, IMediator mediator, ILogger<JobConsumer> logger)
+    public JobConsumer(IMediator mediator, ILogger<JobConsumer> logger)
     {
-      _pushMessageSender = pushMessageSender;
       _mediator = mediator;
       _logger = logger;
     }
