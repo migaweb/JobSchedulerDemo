@@ -40,7 +40,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobSchedulerDemo.Scheduler.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobSchedulerDemo.Scheduler.Hangfire", "Infrastructure\JobSchedulerDemo.Infrastructure.Hangfire\JobSchedulerDemo.Scheduler.Hangfire.csproj", "{9B786896-DD87-47A3-AFD3-313E65BE42E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobSchedulerDemo.Scheduler.Immediate", "..\JobSchedulerDemo.Scheduler.Immediate\JobSchedulerDemo.Scheduler.Immediate.csproj", "{7272A19B-2B23-400F-85BF-58A1AEB54E1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobSchedulerDemo.Scheduler.Immediate", "Infrastructure\JobSchedulerDemo.Scheduler.Immediate\JobSchedulerDemo.Scheduler.Immediate.csproj", "{E8388250-C160-4214-B1F2-16B14E0D1CEA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -100,10 +100,10 @@ Global
 		{9B786896-DD87-47A3-AFD3-313E65BE42E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B786896-DD87-47A3-AFD3-313E65BE42E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B786896-DD87-47A3-AFD3-313E65BE42E9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7272A19B-2B23-400F-85BF-58A1AEB54E1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7272A19B-2B23-400F-85BF-58A1AEB54E1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7272A19B-2B23-400F-85BF-58A1AEB54E1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7272A19B-2B23-400F-85BF-58A1AEB54E1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8388250-C160-4214-B1F2-16B14E0D1CEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8388250-C160-4214-B1F2-16B14E0D1CEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8388250-C160-4214-B1F2-16B14E0D1CEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8388250-C160-4214-B1F2-16B14E0D1CEA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -121,7 +121,7 @@ Global
 		{0037679C-D3F8-416B-A6C0-C20083FDA79A} = {50DAA230-A4A0-4840-9892-D04C0BBCDC49}
 		{971863D4-5384-421D-B503-79DB643B4462} = {50DAA230-A4A0-4840-9892-D04C0BBCDC49}
 		{9B786896-DD87-47A3-AFD3-313E65BE42E9} = {50DAA230-A4A0-4840-9892-D04C0BBCDC49}
-		{7272A19B-2B23-400F-85BF-58A1AEB54E1C} = {50DAA230-A4A0-4840-9892-D04C0BBCDC49}
+		{E8388250-C160-4214-B1F2-16B14E0D1CEA} = {50DAA230-A4A0-4840-9892-D04C0BBCDC49}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {92FD4906-AAC6-4E0A-89DA-BA1378C66FB7}

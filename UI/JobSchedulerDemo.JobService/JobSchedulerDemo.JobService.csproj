@@ -15,10 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\JobSchedulerDemo.Scheduler.Immediate\JobSchedulerDemo.Scheduler.Immediate.csproj" />
     <ProjectReference Include="..\..\Infrastructure\JobSchedulerDemo.Infrastructure.Hangfire\JobSchedulerDemo.Scheduler.Hangfire.csproj" />
     <ProjectReference Include="..\..\Infrastructure\JobSchedulerDemo.Infrastructure\JobSchedulerDemo.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\JobSchedulerDemo.Persistence\JobSchedulerDemo.Persistence.csproj" />
     <ProjectReference Include="..\..\Infrastructure\JobSchedulerDemo.Scheduler.Coravel\JobSchedulerDemo.Scheduler.Coravel.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\JobSchedulerDemo.Scheduler.Immediate\JobSchedulerDemo.Scheduler.Immediate.csproj" />
   </ItemGroup>
 </Project>
