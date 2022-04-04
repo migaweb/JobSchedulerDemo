@@ -23,12 +23,12 @@ The jobs are scheduled using Hangfire and progress are reported back to the Clie
 3. HangfireDashboard: The Hangfire dashboard for viewing scheduled jobs.
 4. SignalRHub: Used for sending push messages with job status back to ClientUI.
 
-### How to start
+## How to start
 1. Install [Docker](https://www.docker.com/).
 2. Open the solution in Visual Studio (2022)
 3. Make the docker-compose project as Set as Startup Project in Visual Studio then click the debug button (or F5).
 
-### Database migrations
+## Database migrations
 Using Powershell.
 
 Verbose (--verbose) is optional.
