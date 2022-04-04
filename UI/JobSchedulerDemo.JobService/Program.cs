@@ -16,8 +16,8 @@ IHost host = Host.CreateDefaultBuilder(args)
 
       services.ConfigureApplicationServices();
 
-      //services.ConfigureCoravelSchedulerServices();
-      services.ConfigureHangfireSchedulerServices(builder);
+      services.ConfigureCoravelSchedulerServices();
+      //services.ConfigureHangfireSchedulerServices(builder);
       //services.ConfigureImmediateSchedulerServices();
 
       services.ConfigurePersistenceServices(builder.Configuration);
