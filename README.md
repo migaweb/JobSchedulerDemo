@@ -9,7 +9,7 @@ The jobs are scheduled using Hangfire and progress are reported back to the Clie
 **Links**
 - [GitHub](https://github.com/migaweb/JobSchedulerDemo)
 
-## Technology used
+## Technologies used
 - Blazor
 - SignalR
 - Hangfire
@@ -33,11 +33,13 @@ Using Powershell.
 
 Verbose (--verbose) is optional.
 
+#### Add migration
 ```
-Add migration
 dotnet ef migrations add Initial --context ScheduledJobsDbContext -s ..\..\UI\JobSchedulerDemo.ClientUI\Server\ --verbose
+```
 
-Update database
+#### Update database
+```
 dotnet ef database update --context ScheduledJobsDbContext -s ..\..\UI\JobSchedulerDemo.ClientUI\Server\ --verbose
 ```
 
