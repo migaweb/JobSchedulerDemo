@@ -2,7 +2,7 @@
 {
     public interface IScheduler
   {
-    Task<string> Schedule(string type, int jobId, int timeInSeconds);
+    Task<string?> Schedule(string type, int jobId, int timeInSeconds);
     Task<bool> Cancel(int jobId);
   }
 }

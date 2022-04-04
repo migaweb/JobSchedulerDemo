@@ -16,42 +16,40 @@ namespace JobSchedulerDemo.Scheduler.Immediate
       _logger = logger;
     }
 
-    public Task<bool> Cancel(int jobId)
-    {
-      throw new NotImplementedException();
-    }
-
-    public async Task<string> Schedule(string type, int jobId, int timeInSeconds)
+    public async Task<bool> Cancel(int jobId)
     {
       await Task.CompletedTask;
-      _ = ScheduleJob(jobId.ToString(), type, timeInSeconds);
+      return true;
+    }
 
-      return jobId.ToString();
+    public async Task<string?> Schedule(string type, int jobId, int timeInSeconds)
+    {
+      return await ScheduleJob(jobId.ToString(), type, timeInSeconds);
     }
 
     private async Task<string?> ScheduleJob(string jobId, string name, int timeInSeconds)
     {
-      await Task.Delay(timeInSeconds * 1000);
+      //await Task.Delay(timeInSeconds * 1000);
 
       switch (name)
       {
         case nameof(Preplanning):
-          var preplanning = new Preplanning(_mediator);
-          await preplanning.Run(jobId);
+          //var preplanning = new Preplanning(_mediator);
+          //await preplanning.Run(jobId);
           break;
 
         case nameof(Contract):
-          var contract = new Contract(_mediator);
-          await contract.Run(jobId);
+          //var contract = new Contract(_mediator);
+          //await contract.Run(jobId);
           break;
 
         case nameof(Invoice):
-          var invoice = new Invoice(_mediator);
-          await invoice.Run(jobId);
+          //var invoice = new Invoice(_mediator);
+          //await invoice.Run(jobId);
           break;
         default:
           _logger.LogWarning("{Name} is an invalid job.", name);
-          break;
+          return null;
       }
 
       return jobId;

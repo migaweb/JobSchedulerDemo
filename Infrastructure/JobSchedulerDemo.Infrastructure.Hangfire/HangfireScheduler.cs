@@ -20,7 +20,7 @@ namespace JobSchedulerDemo.Infrastructure.Hangfire
       return BackgroundJob.Delete(jobId.ToString());
     }
 
-    public async Task<string> Schedule(string type, int jobId, int timeInSeconds)
+    public async Task<string?> Schedule(string type, int jobId, int timeInSeconds)
     {
       await Task.CompletedTask;
       return ScheduleJob(type, timeInSeconds);

@@ -25,13 +25,13 @@ public class CoravelScheduler : IScheduler
     return true;
   }
 
-  public async Task<string> Schedule(string type, int jobId, int timeInSeconds)
+  public async Task<string?> Schedule(string type, int jobId, int timeInSeconds)
   {
     await Task.CompletedTask;
     return ScheduleJob(jobId, type, timeInSeconds);
   }
 
-  private string ScheduleJob(int id, string name, int timeInSeconds)
+  private string? ScheduleJob(int id, string name, int timeInSeconds)
   {
     string? jobId = id.ToString();
     Guid? cId = null; 
@@ -51,7 +51,7 @@ public class CoravelScheduler : IScheduler
         break;
       default:
         _logger.LogWarning("{Name} is an invalid job.", name);
-        break;
+        return null;
     }
 
     return jobId;

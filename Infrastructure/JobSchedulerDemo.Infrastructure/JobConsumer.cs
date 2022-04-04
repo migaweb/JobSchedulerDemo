@@ -27,6 +27,16 @@ namespace JobSchedulerDemo.Infrastructure
         Name = context.Message.Name,
       });
 
+      // Note, if using immediate job scheduling
+      // masstransit will not send ack to MQ until this method returns.
+
+      // When using Immediate scheduling uncomment this line.
+      // Would be nice with some other architecture for this.
+      //await _mediator.Send(new RunScheduledJobCommand
+      //{
+      //  JobId = context.Message.Id
+      //});
+
       _logger.LogInformation("JobMessage scheduled: {jobMessage}", context.Message);
     }
   }
