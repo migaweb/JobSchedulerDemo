@@ -15,6 +15,7 @@
             <th>Scheduled</th>
             <th>Started</th>
             <th>Completed</th>
+            <th>Error</th>
         </tr>
         </thead>
         @if (ScheduledJobs != null) 
@@ -29,6 +30,7 @@
                     <td>@message.Scheduled</td>
                     <td>@message.Started</td>
                     <td>@message.Completed</td>
+                    <td>@message.Error</td>
                 </tr>
             }
         }

@@ -45,9 +45,16 @@ namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Commands
         _logger.LogError("Job with id {id} has already been scheduled.", scheduledJob.Id);
       }
 
-      scheduledJob.JobId = ScheduleJob(scheduledJob.Name, 10);
+      scheduledJob.JobId = ScheduleJob(scheduledJob.Name, 5);
       scheduledJob.Scheduled = DateTime.Now;
       scheduledJob.StatusId = (int)ScheduledJobStatusEnum.Scheduled;
+
+      if (String.IsNullOrEmpty(scheduledJob.JobId))
+      {
+        scheduledJob.StatusId = (int)ScheduledJobStatusEnum.Rejected;
+        scheduledJob.Error = $"Unknown job: {scheduledJob.JobId}";
+        scheduledJob.Completed = scheduledJob.Scheduled;
+      }
 
       try
       {
@@ -64,7 +71,7 @@ namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Commands
         new PushMessage(
           scheduledJob.Id, 
           scheduledJob.Name,
-          ScheduledJobStatusEnum.Scheduled.ToString(), 
+          String.IsNullOrEmpty(scheduledJob.JobId) ? ScheduledJobStatusEnum.Rejected.ToString() : ScheduledJobStatusEnum.Scheduled.ToString(), 
           scheduledJob.Scheduled.Value,
           scheduledJob.JobId, scheduledJob.Scheduled, scheduledJob.Started, scheduledJob.Completed, scheduledJob.Error));
 
@@ -76,9 +83,9 @@ namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Commands
       return BackgroundJob.Delete(jobId);
     }
 
-    private string ScheduleJob(string name, int timeInSeconds)
+    private string? ScheduleJob(string name, int timeInSeconds)
     {
-      string jobId = string.Empty;
+      string? jobId = null;
 
       switch (name)
       {

@@ -13,6 +13,7 @@
             <button @onclick=StartContractJob>Contract</button>
             <button @onclick=StartInvoiceJob>Invoice</button>
             <button @onclick=StartPreplanningJob>Preplanning</button>
+            <button @onclick=StartInvalidJob>Invalid</button>
         </div>
 
         <article class="content px-4">
@@ -32,6 +33,10 @@
 
     async Task StartPreplanningJob() {
         await StartJob(new JobMessage(DateTime.Now.Ticks.ToString(), "Preplanning"));
+    }
+
+    async Task StartInvalidJob() {
+        await StartJob(new JobMessage(DateTime.Now.Ticks.ToString(), "Invalid"));
     }
 
     async Task StartJob(JobMessage job)
