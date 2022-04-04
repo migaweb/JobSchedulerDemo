@@ -71,14 +71,14 @@ namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Commands
         new PushMessage(
           scheduledJob.Id, 
           scheduledJob.Name,
-          String.IsNullOrEmpty(scheduledJob.JobId) ? ScheduledJobStatusEnum.Rejected.ToString() : ScheduledJobStatusEnum.Scheduled.ToString(), 
+          string.IsNullOrEmpty(scheduledJob.JobId) ? ScheduledJobStatusEnum.Rejected.ToString() : ScheduledJobStatusEnum.Scheduled.ToString(), 
           scheduledJob.Scheduled.Value,
           scheduledJob.JobId, scheduledJob.Scheduled, scheduledJob.Started, scheduledJob.Completed, scheduledJob.Error));
 
       return response;
     }
 
-    private bool CancelJob(string jobId)
+    private static bool CancelJob(string jobId)
     {
       return BackgroundJob.Delete(jobId);
     }
