@@ -16,6 +16,7 @@ The jobs are scheduled using Hangfire and progress are reported back to the Clie
 - MassTransit
 - RabbitMQ
 - Mediatr
+- Clean Architecture
 
 ## Architecture
 1. JobService: Receives jobs via RabbitMQ and schedules the job with Hangfire. Can use multiple instances (configured in docker compose files).
