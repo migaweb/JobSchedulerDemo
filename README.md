@@ -46,9 +46,9 @@ dotnet ef database update --context ScheduledJobsDbContext -s ..\..\UI\JobSchedu
 ## Third party dependencies
 The following are third-party libraries used by the different apps and their respective license.
 ### .NET
-- AutoMapper, [MIT](https://mit-license.org/)
-- MassTransit, [Apache-2.0](https://licenses.nuget.org/Apache-2.0)
-- Hangfire, [LGPL](https://raw.githubusercontent.com/HangfireIO/Hangfire/master/LICENSE.md)
-- RabbitMQ, [Mozilla Public License v 2.0](https://www.rabbitmq.com/mpl.html)
-- MediatR, [Apache-2.0](https://licenses.nuget.org/Apache-2.0)
-- FluentValidation, [Apache-2.0](https://licenses.nuget.org/Apache-2.0)
+- [AutoMapper](https://automapper.org/), [MIT](https://mit-license.org/)
+- [MassTransit](https://masstransit-project.com/), [Apache-2.0](https://licenses.nuget.org/Apache-2.0)
+- [Hangfire](https://www.hangfire.io/), [LGPL](https://raw.githubusercontent.com/HangfireIO/Hangfire/master/LICENSE.md)
+- [RabbitMQ](https://www.rabbitmq.com/), [Mozilla Public License v 2.0](https://www.rabbitmq.com/mpl.html)
+- [MediatR](https://github.com/jbogard/MediatR), [Apache-2.0](https://licenses.nuget.org/Apache-2.0)
+- [FluentValidation](https://fluentvalidation.net/), [Apache-2.0](https://licenses.nuget.org/Apache-2.0)
