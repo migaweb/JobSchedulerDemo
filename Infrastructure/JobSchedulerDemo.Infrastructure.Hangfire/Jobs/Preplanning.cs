@@ -1,9 +1,9 @@
-﻿using Hangfire.Server;
-using JobSchedulerDemo.Application.Contracts;
+﻿
+using Hangfire.Server;
 using MediatR;
 
-namespace JobSchedulerDemo.Application.Jobs;
-public class Preplanning : JobBase, IJob
+namespace JobSchedulerDemo.Infrastructure.Scheduler.Hangfire;
+public class Preplanning : JobBase
 {
   public Preplanning(IMediator mediator) : base(mediator)
   {

@@ -1,11 +1,10 @@
-﻿using Hangfire;
+﻿
 using AutoMapper;
 using JobSchedulerDemo.Application.Contracts.Infrastructure;
 using JobSchedulerDemo.Application.Contracts.Persistence;
 using JobSchedulerDemo.Application.Dtos;
 using JobSchedulerDemo.Application.Features.ScheduledJob.Requests.Commands;
 using JobSchedulerDemo.Application.Features.ScheduledJob.Responses;
-using JobSchedulerDemo.Application.Jobs;
 using JobSchedulerDemo.Application.MessageContracts.Hub;
 using JobSchedulerDemo.Domain.Enums;
 using MediatR;
@@ -13,22 +12,25 @@ using Microsoft.Extensions.Logging;
 
 namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Commands
 {
-  public class ScheduleScheduledJobCommandHandler : 
+  public class ScheduleScheduledJobCommandHandler :
     IRequestHandler<ScheduleScheduledJobCommand, ScheduleScheduledJobResponse>
   {
     private readonly IScheduledJobRepository _scheduledJobRepository;
     private readonly IPushMessageSender _pushMessageSender;
     private readonly IMapper _mapper;
     private readonly ILogger<ScheduleScheduledJobCommandHandler> _logger;
+    private readonly IScheduler _scheduler;
 
     public ScheduleScheduledJobCommandHandler(
       IScheduledJobRepository scheduledJobRepository, IPushMessageSender pushMessageSender, IMapper mapper,
-      ILogger<ScheduleScheduledJobCommandHandler> logger)
+      ILogger<ScheduleScheduledJobCommandHandler> logger,
+      IScheduler scheduler)
     {
       _scheduledJobRepository = scheduledJobRepository;
       _pushMessageSender = pushMessageSender;
       _mapper = mapper;
       _logger = logger;
+      _scheduler = scheduler;
     }
 
     public async Task<ScheduleScheduledJobResponse> Handle(ScheduleScheduledJobCommand request, CancellationToken cancellationToken)
@@ -45,7 +47,7 @@ namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Commands
         _logger.LogError("Job with id {id} has already been scheduled.", scheduledJob.Id);
       }
 
-      scheduledJob.JobId = ScheduleJob(scheduledJob.Name, 5);
+      scheduledJob.JobId = await _scheduler.Schedule(scheduledJob.Name, scheduledJob.Id, 5);
       scheduledJob.Scheduled = DateTime.Now;
       scheduledJob.StatusId = (int)ScheduledJobStatusEnum.Scheduled;
 
@@ -62,6 +64,7 @@ namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Commands
       }
       catch (Exception ex)
       {
+        await CancelJob(scheduledJob.Id);
         _logger.LogError("Job could not be updated in DB: {ScheduledJobId}, Exception: {ex}", scheduledJob.Id, ex.Message);
       }
 
@@ -69,43 +72,18 @@ namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Commands
 
       _pushMessageSender.SendStatus(
         new PushMessage(
-          scheduledJob.Id, 
+          scheduledJob.Id,
           scheduledJob.Name,
-          string.IsNullOrEmpty(scheduledJob.JobId) ? ScheduledJobStatusEnum.Rejected.ToString() : ScheduledJobStatusEnum.Scheduled.ToString(), 
+          string.IsNullOrEmpty(scheduledJob.JobId) ? ScheduledJobStatusEnum.Rejected.ToString() : ScheduledJobStatusEnum.Scheduled.ToString(),
           scheduledJob.Scheduled.Value,
           scheduledJob.JobId, scheduledJob.Scheduled, scheduledJob.Started, scheduledJob.Completed, scheduledJob.Error));
 
       return response;
     }
 
-    private static bool CancelJob(string jobId)
+    private async Task<bool> CancelJob(int id)
     {
-      return BackgroundJob.Delete(jobId);
-    }
-
-    private string? ScheduleJob(string name, int timeInSeconds)
-    {
-      string? jobId = null;
-
-      switch (name)
-      {
-        case nameof(Preplanning):
-          jobId = BackgroundJob.Schedule<Preplanning>(p => p.Run(null), TimeSpan.FromSeconds(timeInSeconds));
-          break;
-
-        case nameof(Contract):
-          jobId = BackgroundJob.Schedule<Contract>(c => c.Run(null), TimeSpan.FromSeconds(timeInSeconds));
-          break;
-
-        case nameof(Invoice):
-          jobId = BackgroundJob.Schedule<Invoice>(i => i.Run(null), TimeSpan.FromSeconds(timeInSeconds));
-          break;
-        default:
-          _logger.LogWarning("{Name} is an invalid job.", name);
-          break;
-      }
-
-      return jobId;
+      return await _scheduler.Cancel(id);
     }
   }
 }

@@ -1,7 +1,4 @@
-﻿using Hangfire;
-using JobSchedulerDemo.Application.Contracts.Infrastructure;
-using JobSchedulerDemo.Application.Features.ScheduledJob.Requests.Commands;
-using JobSchedulerDemo.Application.Jobs;
+﻿using JobSchedulerDemo.Application.Features.ScheduledJob.Requests.Commands;
 using JobSchedulerDemo.Application.MessageContracts.MQ;
 using MassTransit;
 using MediatR;

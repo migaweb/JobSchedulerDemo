@@ -1,6 +1,9 @@
+using Coravel.Pro;
+using JobSchedulerDemo.Application.Contracts.Infrastructure;
 using JobSchedulerDemo.Application.Extensions;
 using JobSchedulerDemo.Infrastructure.Configuration;
 using JobSchedulerDemo.Persistence.Configurations;
+using JobSchedulerDemo.Scheduler.Coravel;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,9 +15,10 @@ builder.Services.ConfigureApplicationServices();
 
 builder.Services.ConfigurePersistenceServices(builder.Configuration);
 builder.Services.ConfigurePushMessages(builder.Configuration);
+builder.Services.AddScoped<IScheduler, CoravelScheduler>();
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages().AddNewtonsoftJson();
 
 var app = builder.Build();
 
@@ -43,5 +47,12 @@ app.UseRouting();
 app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
+
+app.UseEndpoints(endpoints =>
+{
+  endpoints.MapRazorPages();
+});
+
+app.UseCoravelPro();
 
 app.Run();

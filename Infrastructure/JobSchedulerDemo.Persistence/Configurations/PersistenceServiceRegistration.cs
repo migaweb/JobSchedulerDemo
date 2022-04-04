@@ -1,4 +1,5 @@
-﻿using JobSchedulerDemo.Application.Contracts.Persistence;
+﻿using Coravel.Pro;
+using JobSchedulerDemo.Application.Contracts.Persistence;
 using JobSchedulerDemo.Persistence.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,8 @@ public static class PersistenceServiceRegistration
     services.AddDbContext<ScheduledJobsDbContext>(options =>
       options.UseSqlServer(
         configuration.GetConnectionString("JobsDbConnectionString")), ServiceLifetime.Transient);
+
+    services.AddCoravelPro(typeof(ScheduledJobsDbContext));
 
     services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 

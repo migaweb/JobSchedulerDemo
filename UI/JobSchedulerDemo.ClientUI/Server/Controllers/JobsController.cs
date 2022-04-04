@@ -26,7 +26,7 @@ namespace JobSchedulerDemo.ClientUI.Server.Controllers
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post(JobMessage jobMessage)
+    public async Task<IActionResult> Post(JobSchedulerDemo.Application.MessageContracts.MQ.JobMessage jobMessage)
     {
       var request = new CreateScheduledJobCommand();
       request.ScheduledJobDto = new() { Name = jobMessage.Name };
