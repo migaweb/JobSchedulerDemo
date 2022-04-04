@@ -13,6 +13,7 @@ The jobs are scheduled using Hangfire and progress are reported back to the Clie
 - Blazor
 - SignalR
 - Hangfire
+- Coravel PRO
 - MassTransit
 - RabbitMQ
 - Mediatr
@@ -50,6 +51,7 @@ The following are third-party libraries used by the different apps and their res
 - [AutoMapper](https://automapper.org/), [MIT](https://mit-license.org/)
 - [MassTransit](https://masstransit-project.com/), [Apache-2.0](https://licenses.nuget.org/Apache-2.0)
 - [Hangfire](https://www.hangfire.io/), [LGPL](https://raw.githubusercontent.com/HangfireIO/Hangfire/master/LICENSE.md)
+- [Coravel PRO](https://www.pro.coravel.net//), [LGPL](https://www.pro.coravel.net/pricing)
 - [RabbitMQ](https://www.rabbitmq.com/), [Mozilla Public License v 2.0](https://www.rabbitmq.com/mpl.html)
 - [MediatR](https://github.com/jbogard/MediatR), [Apache-2.0](https://licenses.nuget.org/Apache-2.0)
 - [FluentValidation](https://fluentvalidation.net/), [Apache-2.0](https://licenses.nuget.org/Apache-2.0)
