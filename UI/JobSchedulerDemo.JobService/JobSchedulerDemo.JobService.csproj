@@ -20,5 +20,6 @@
     <ProjectReference Include="..\..\Infrastructure\JobSchedulerDemo.Persistence\JobSchedulerDemo.Persistence.csproj" />
     <ProjectReference Include="..\..\Infrastructure\JobSchedulerDemo.Scheduler.Coravel\JobSchedulerDemo.Scheduler.Coravel.csproj" />
     <ProjectReference Include="..\..\Infrastructure\JobSchedulerDemo.Scheduler.Immediate\JobSchedulerDemo.Scheduler.Immediate.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\JobSchedulerDemo.Scheduler.Quartz\JobSchedulerDemo.Scheduler.Quartz.csproj" />
   </ItemGroup>
 </Project>

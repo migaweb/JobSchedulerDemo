@@ -42,6 +42,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobSchedulerDemo.Scheduler.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobSchedulerDemo.Scheduler.Immediate", "Infrastructure\JobSchedulerDemo.Scheduler.Immediate\JobSchedulerDemo.Scheduler.Immediate.csproj", "{E8388250-C160-4214-B1F2-16B14E0D1CEA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobSchedulerDemo.Scheduler.Quartz", "Infrastructure\JobSchedulerDemo.Scheduler.Quartz\JobSchedulerDemo.Scheduler.Quartz.csproj", "{72F903C7-B647-4756-9E0A-B811E5FC6323}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,6 +106,10 @@ Global
 		{E8388250-C160-4214-B1F2-16B14E0D1CEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8388250-C160-4214-B1F2-16B14E0D1CEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8388250-C160-4214-B1F2-16B14E0D1CEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72F903C7-B647-4756-9E0A-B811E5FC6323}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72F903C7-B647-4756-9E0A-B811E5FC6323}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72F903C7-B647-4756-9E0A-B811E5FC6323}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72F903C7-B647-4756-9E0A-B811E5FC6323}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -122,6 +128,7 @@ Global
 		{971863D4-5384-421D-B503-79DB643B4462} = {50DAA230-A4A0-4840-9892-D04C0BBCDC49}
 		{9B786896-DD87-47A3-AFD3-313E65BE42E9} = {50DAA230-A4A0-4840-9892-D04C0BBCDC49}
 		{E8388250-C160-4214-B1F2-16B14E0D1CEA} = {50DAA230-A4A0-4840-9892-D04C0BBCDC49}
+		{72F903C7-B647-4756-9E0A-B811E5FC6323} = {50DAA230-A4A0-4840-9892-D04C0BBCDC49}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {92FD4906-AAC6-4E0A-89DA-BA1378C66FB7}

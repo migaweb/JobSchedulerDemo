@@ -5,6 +5,7 @@ using JobSchedulerDemo.Persistence.Configurations;
 using JobSchedulerDemo.Scheduler.Coravel.Configuration;
 using JobSchedulerDemo.Scheduler.Hangfire.Configuration;
 using JobSchedulerDemo.Scheduler.Immediate.Configuration;
+using JobSchedulerDemo.Scheduler.Quartz.Configuration;
 using IHost = Microsoft.Extensions.Hosting.IHost;
 
 IHost host = Host.CreateDefaultBuilder(args)
@@ -17,8 +18,9 @@ IHost host = Host.CreateDefaultBuilder(args)
       services.ConfigureApplicationServices();
 
       //services.ConfigureCoravelSchedulerServices();
-      services.ConfigureHangfireSchedulerServices(builder);
+      //services.ConfigureHangfireSchedulerServices(builder);
       //services.ConfigureImmediateSchedulerServices();
+      services.ConfigureQuartzSchedulerServices(builder.Configuration);
 
       services.ConfigurePersistenceServices(builder.Configuration);
     })

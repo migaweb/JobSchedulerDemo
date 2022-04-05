@@ -9,7 +9,7 @@ services:
         ACCEPT_EULA: "Y"
     restart: always
     ports:
-        - "1433"
+        - "1430:1433"
 
   rabbitmq:
     hostname: rabbit1
