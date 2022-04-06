@@ -1,4 +1,5 @@
 
+using JobSchedulerDemo.Application.Constants;
 using JobSchedulerDemo.SignalRHub.Hubs;
 using Microsoft.AspNetCore.ResponseCompression;
 
@@ -28,6 +29,8 @@ builder.Services.AddResponseCompression(opts =>
       new[] { "application/octet-stream" });
 });
 
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
 
 app.UseResponseCompression();
@@ -43,5 +46,7 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 app.MapHub<PushMessageHub>("/pushmessagehub");
+
+app.MapHealthChecks(HealthCheckConstants.Url);
 
 app.Run();

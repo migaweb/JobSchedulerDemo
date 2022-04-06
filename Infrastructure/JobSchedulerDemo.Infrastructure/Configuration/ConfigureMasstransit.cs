@@ -8,6 +8,7 @@ public static class ConfigureMassTransit
 {
   public static void ConfigureMassTransitJobConsumer(this IServiceCollection services, string rabbitMqHost)
   {
+    services.AddScoped<IJobPublisher, JobPublisher>();
     services.AddMassTransit(configure =>
     {
       configure.AddConsumers(typeof(JobConsumer));

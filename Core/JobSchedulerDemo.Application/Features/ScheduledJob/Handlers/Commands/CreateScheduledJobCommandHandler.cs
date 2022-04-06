@@ -53,7 +53,8 @@ namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Commands
           scheduledJob.Name,
           ScheduledJobStatusEnum.Created.ToString(),
           scheduledJob.DateCreated,
-          scheduledJob.JobId, scheduledJob.Scheduled, scheduledJob.Started, scheduledJob.Completed, scheduledJob.Error));
+          scheduledJob.JobId, scheduledJob.Scheduled, scheduledJob.Started, scheduledJob.Completed, scheduledJob.Error
+          ));
 
       return response;
     }

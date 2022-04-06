@@ -1,5 +1,6 @@
 ﻿
 using AutoMapper;
+using JobSchedulerDemo.Application.Constants;
 using JobSchedulerDemo.Application.Contracts.Infrastructure;
 using JobSchedulerDemo.Application.Contracts.Persistence;
 using JobSchedulerDemo.Application.Dtos;
@@ -70,13 +71,17 @@ namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Commands
 
       response.ScheduledJobDto = _mapper.Map<ScheduledJobDto>(scheduledJob);
 
+      var instanceName = Environment.GetEnvironmentVariable(EnvironmentVariables.InstanceName);
+        string status = string.IsNullOrEmpty(scheduledJob.JobId) ? ScheduledJobStatusEnum.Rejected.ToString() : ScheduledJobStatusEnum.Scheduled.ToString();
+
       _pushMessageSender.SendStatus(
         new PushMessage(
           scheduledJob.Id,
           scheduledJob.Name,
-          string.IsNullOrEmpty(scheduledJob.JobId) ? ScheduledJobStatusEnum.Rejected.ToString() : ScheduledJobStatusEnum.Scheduled.ToString(),
+          $"{status} ({instanceName})",
           scheduledJob.Scheduled.Value,
-          scheduledJob.JobId, scheduledJob.Scheduled, scheduledJob.Started, scheduledJob.Completed, scheduledJob.Error));
+          scheduledJob.JobId, scheduledJob.Scheduled, scheduledJob.Started, scheduledJob.Completed, scheduledJob.Error
+          ));
 
       return response;
     }

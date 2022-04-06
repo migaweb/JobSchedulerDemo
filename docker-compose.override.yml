@@ -43,16 +43,24 @@ services:
   jobschedulerdemo.jobservice1:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - instance_name=jobService1
     depends_on:
       - jobschedulerdemo.hangfiredashboard
+    ports:
+      - "8011:80"
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
   jobschedulerdemo.jobservice2:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - instance_name=jobService2
     depends_on:
       - jobschedulerdemo.hangfiredashboard
+    ports:
+      - "8012:80"
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 

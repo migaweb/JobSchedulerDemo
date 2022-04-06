@@ -42,7 +42,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobSchedulerDemo.Scheduler.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobSchedulerDemo.Scheduler.Immediate", "Infrastructure\JobSchedulerDemo.Scheduler.Immediate\JobSchedulerDemo.Scheduler.Immediate.csproj", "{E8388250-C160-4214-B1F2-16B14E0D1CEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobSchedulerDemo.Scheduler.Quartz", "Infrastructure\JobSchedulerDemo.Scheduler.Quartz\JobSchedulerDemo.Scheduler.Quartz.csproj", "{72F903C7-B647-4756-9E0A-B811E5FC6323}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobSchedulerDemo.Scheduler.Quartz", "Infrastructure\JobSchedulerDemo.Scheduler.Quartz\JobSchedulerDemo.Scheduler.Quartz.csproj", "{72F903C7-B647-4756-9E0A-B811E5FC6323}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

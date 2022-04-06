@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using JobSchedulerDemo.Application.Constants;
 using JobSchedulerDemo.Application.Contracts.Infrastructure;
 using JobSchedulerDemo.Application.Contracts.Persistence;
 using JobSchedulerDemo.Application.Dtos;
@@ -69,11 +70,13 @@ namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Commands
 
     private void PushStatus(Domain.ScheduledJob job, string status)
     {
+      var instanceName = Environment.GetEnvironmentVariable(EnvironmentVariables.InstanceName);
+
       _pushMessageSender.SendStatus(
         new MessageContracts.Hub.PushMessage(
           job.Id,
           job.Name,
-          status.ToString(),
+          $"{status} ({instanceName})",
           job.DateCreated,
           job.JobId, job.Scheduled, job.Started, job.Completed, job.Error
           ));

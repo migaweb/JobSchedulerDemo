@@ -9,17 +9,17 @@ namespace JobSchedulerDemo.Scheduler.Hangfire.Configuration
 {
   public static class ConfigureHangfire
   {
-    public static void ConfigureHangfireSchedulerServices(this IServiceCollection services, HostBuilderContext builder)
+    public static void ConfigureHangfireSchedulerServices(this IServiceCollection services, IConfiguration configuration)
     {
       services.AddScoped<IScheduler, HangfireScheduler>();
-      services.AddHangfire(x => x.UseSqlServerStorage(GetHangfireConnectionString(builder)));
+      services.AddHangfire(x => x.UseSqlServerStorage(GetHangfireConnectionString(configuration)));
       services.AddHangfireServer();
     }
 
-    private static string GetHangfireConnectionString(HostBuilderContext builder)
+    private static string GetHangfireConnectionString(IConfiguration configuration)
     {
-      string dbName = builder.Configuration["HangfireDatabaseName"];
-      string connectionStringFormat = builder.Configuration.GetConnectionString("HangfireDB");
+      string dbName = configuration["HangfireDatabaseName"];
+      string connectionStringFormat = configuration.GetConnectionString("HangfireDB");
 
       return string.Format(connectionStringFormat, dbName);
     }

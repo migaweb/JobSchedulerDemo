@@ -1,4 +1,5 @@
 
+using JobSchedulerDemo.Application.Constants;
 using JobSchedulerDemo.Application.Extensions;
 using JobSchedulerDemo.Infrastructure.Configuration;
 using JobSchedulerDemo.Persistence.Configurations;
@@ -6,24 +7,44 @@ using JobSchedulerDemo.Scheduler.Coravel.Configuration;
 using JobSchedulerDemo.Scheduler.Hangfire.Configuration;
 using JobSchedulerDemo.Scheduler.Immediate.Configuration;
 using JobSchedulerDemo.Scheduler.Quartz.Configuration;
-using IHost = Microsoft.Extensions.Hosting.IHost;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-IHost host = Host.CreateDefaultBuilder(args)
-    .ConfigureServices((builder, services) =>
-    {
-      services.ConfigureMassTransitJobConsumer(builder.Configuration["RabbitMQHost"]);
+var builder = WebApplication.CreateBuilder(args);
 
-      services.ConfigurePushMessages(builder);
+// Add services to the container.
+builder.Services.AddControllers();
 
-      services.ConfigureApplicationServices();
+builder.Services.ConfigureMassTransitJobConsumer(builder.Configuration["RabbitMQHost"]);
 
-      //services.ConfigureCoravelSchedulerServices();
-      //services.ConfigureHangfireSchedulerServices(builder);
-      //services.ConfigureImmediateSchedulerServices();
-      services.ConfigureQuartzSchedulerServices(builder.Configuration);
+builder.Services.ConfigurePushMessages(builder.Configuration);
 
-      services.ConfigurePersistenceServices(builder.Configuration);
-    })
-    .Build();
+builder.Services.ConfigureApplicationServices();
 
-await host.RunAsync();
+//builder.Services.ConfigureCoravelSchedulerServices();
+builder.Services.ConfigureHangfireSchedulerServices(builder.Configuration);
+//builder.Services.ConfigureImmediateSchedulerServices();
+//builder.Services.ConfigureQuartzSchedulerServices(builder.Configuration);
+
+builder.Services.ConfigurePersistenceServices(builder.Configuration);
+
+builder.Services.AddHealthChecks()
+  .AddSqlServer(
+        builder.Configuration.GetConnectionString("JobsDbConnectionString"), 
+        healthQuery: "SELECT 1",
+        name: "JobsDB",
+        failureStatus: HealthStatus.Unhealthy);
+//.AddRabbitMQ(
+//             "amqps://guest:guest@rabbitmq:5672",
+//             name: "RabbitMQ",
+//             failureStatus: HealthStatus.Healthy,
+//             timeout: TimeSpan.FromSeconds(1),
+//             tags: new string[] { "services" });
+
+WebApplication app = builder.Build();
+
+// Configure the HTTP request pipeline.
+
+app.MapHealthChecks(HealthCheckConstants.Url);
+
+app.Run();
