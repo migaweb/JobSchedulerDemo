@@ -7,6 +7,8 @@
     Running = 3,
     Completed = 4,
     Error = 5,
-    Rejected = 6
+    Rejected = 6,
+    Cancelling = 7,
+    Canceled = 8
   }
 }

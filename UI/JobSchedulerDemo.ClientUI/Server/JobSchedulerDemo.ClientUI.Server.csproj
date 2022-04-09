@@ -26,6 +26,7 @@
     <ProjectReference Include="..\..\..\Infrastructure\JobSchedulerDemo.Infrastructure\JobSchedulerDemo.Infrastructure.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\JobSchedulerDemo.Persistence\JobSchedulerDemo.Persistence.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\JobSchedulerDemo.Scheduler.Coravel\JobSchedulerDemo.Scheduler.Coravel.csproj" />
+    <ProjectReference Include="..\..\..\Infrastructure\JobSchedulerDemo.Scheduler.Quartz\JobSchedulerDemo.Scheduler.Quartz.csproj" />
     <ProjectReference Include="..\Client\JobSchedulerDemo.ClientUI.Client.csproj" />
     <ProjectReference Include="..\Shared\JobSchedulerDemo.ClientUI.Shared.csproj" />
   </ItemGroup>

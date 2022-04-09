@@ -18,7 +18,7 @@ public class CoravelScheduler : IScheduler
         _logger = logger;
   }
 
-  public async Task<bool> Cancel(int jobId)
+  public async Task<bool> Cancel(string jobId)
   {
     await Task.CompletedTask;
 

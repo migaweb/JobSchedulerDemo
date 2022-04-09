@@ -51,25 +51,11 @@ namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Commands
 
       await _scheduledJobRepository.UpdateAsync(job);
 
-      PushStatus(job, ScheduledJobStatusEnum.Completed.ToString());
+      PushStatus(job, ScheduledJobStatusEnum.Completed);
 
       response.ScheduledJobDto = _mapper.Map<ScheduledJobDto>(job);
 
       return response;
-    }
-
-    private void PushStatus(Domain.ScheduledJob job, string status)
-    {
-      var instanceName = Environment.GetEnvironmentVariable(EnvironmentVariables.InstanceName);
-
-      _pushMessageSender.SendStatus(
-        new MessageContracts.Hub.PushMessage(
-          job.Id,
-          job.Name,
-          $"{status} ({instanceName})",
-          job.DateCreated,
-          job.JobId, job.Scheduled, job.Started, job.Completed, job.Error
-          ));
     }
   }
 }

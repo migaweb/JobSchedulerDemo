@@ -3,6 +3,6 @@
     public interface IScheduler
   {
     Task<string?> Schedule(string type, int jobId, int timeInSeconds);
-    Task<bool> Cancel(int jobId);
+    Task<bool> Cancel(string jobId);
   }
 }

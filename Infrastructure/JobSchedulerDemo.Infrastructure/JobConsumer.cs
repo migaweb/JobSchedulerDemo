@@ -21,11 +21,18 @@ namespace JobSchedulerDemo.Infrastructure
     {
       _logger.LogInformation("JobMessage received: {jobMessage}", context.Message);
 
-      await _mediator.Send(new ScheduleScheduledJobCommand
+      if (context.Message.Cancel)
       {
-        Id = Int32.Parse(context.Message.Id),
-        Name = context.Message.Name,
-      });
+        await _mediator.Send(new CancelScheduledJobCommand { JobId = context.Message.Id });
+      }
+      else
+      {
+        await _mediator.Send(new ScheduleScheduledJobCommand
+        {
+          Id = Int32.Parse(context.Message.Id),
+          Name = context.Message.Name,
+        });
+      }
 
       // Note, if using immediate job scheduling
       // masstransit will not send ack to MQ until this method returns.

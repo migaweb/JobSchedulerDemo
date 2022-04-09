@@ -68,6 +68,11 @@ namespace JobSchedulerDemo.ClientUI.Client.Pages
 
     }
 
+    private async Task CancelJob(string jobId)
+    {
+      await HttpClient.DeleteAsync($"/Jobs/{jobId}");
+    }
+
     public async ValueTask DisposeAsync()
     {
       if (_hubConnection is not null)

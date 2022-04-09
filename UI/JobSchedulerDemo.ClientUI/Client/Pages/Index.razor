@@ -31,6 +31,9 @@
                     <td>@message.Started</td>
                     <td>@message.Completed</td>
                     <td>@message.Error</td>
+                    <td>
+                        <button @onclick="() => CancelJob(message.JobId)">Cancel</button>
+                    </td>
                 </tr>
             }
         }

@@ -14,10 +14,10 @@ namespace JobSchedulerDemo.Infrastructure.Hangfire
       _logger = logger;
     }
 
-    public async Task<bool> Cancel(int jobId)
+    public async Task<bool> Cancel(string jobId)
     {
       await Task.CompletedTask;
-      return BackgroundJob.Delete(jobId.ToString());
+      return BackgroundJob.Delete(jobId);
     }
 
     public async Task<string?> Schedule(string type, int jobId, int timeInSeconds)

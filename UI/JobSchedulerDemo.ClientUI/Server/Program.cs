@@ -2,8 +2,10 @@ using Coravel.Pro;
 using JobSchedulerDemo.Application.Contracts.Infrastructure;
 using JobSchedulerDemo.Application.Extensions;
 using JobSchedulerDemo.Infrastructure.Configuration;
+using JobSchedulerDemo.Infrastructure.Scheduler.Quartz;
 using JobSchedulerDemo.Persistence.Configurations;
 using JobSchedulerDemo.Scheduler.Coravel;
+using JobSchedulerDemo.Scheduler.Quartz.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +17,8 @@ builder.Services.ConfigureApplicationServices();
 
 builder.Services.ConfigurePersistenceServices(builder.Configuration);
 builder.Services.ConfigurePushMessages(builder.Configuration);
-builder.Services.AddScoped<IScheduler, CoravelScheduler>();
+
+builder.Services.ConfigureQuartzSchedulerServices(builder.Configuration);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages().AddNewtonsoftJson();

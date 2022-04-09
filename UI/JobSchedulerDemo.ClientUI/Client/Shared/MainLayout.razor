@@ -24,19 +24,19 @@
 
 @code {
     async Task StartContractJob() {
-        await StartJob(new JobMessage(DateTime.Now.Ticks.ToString(), "Contract"));
+        await StartJob(new JobMessage(DateTime.Now.Ticks.ToString(), "Contract", false));
     }
 
     async Task StartInvoiceJob() {
-        await StartJob(new JobMessage(DateTime.Now.Ticks.ToString(), "Invoice"));
+        await StartJob(new JobMessage(DateTime.Now.Ticks.ToString(), "Invoice", false));
     }
 
     async Task StartPreplanningJob() {
-        await StartJob(new JobMessage(DateTime.Now.Ticks.ToString(), "Preplanning"));
+        await StartJob(new JobMessage(DateTime.Now.Ticks.ToString(), "Preplanning", false));
     }
 
     async Task StartInvalidJob() {
-        await StartJob(new JobMessage(DateTime.Now.Ticks.ToString(), "Invalid"));
+        await StartJob(new JobMessage(DateTime.Now.Ticks.ToString(), "Invalid", false));
     }
 
     async Task StartJob(JobMessage job)

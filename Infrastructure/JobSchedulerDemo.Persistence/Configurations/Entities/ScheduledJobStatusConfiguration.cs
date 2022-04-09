@@ -62,6 +62,24 @@ public class ScheduledJobStatusConfiguration : IEntityTypeConfiguration<Schedule
         LastModifiedBy = "Initial Create",
         LastModifiedDate = dateNow,
         Status = "Rejected"
+      },
+      new ScheduledJobStatus
+      {
+        CreatedBy = "Initial Create",
+        DateCreated = dateNow,
+        Id = 7,
+        LastModifiedBy = "Initial Create",
+        LastModifiedDate = dateNow,
+        Status = "Cancelling"
+      },
+      new ScheduledJobStatus
+      {
+        CreatedBy = "Initial Create",
+        DateCreated = dateNow,
+        Id = 8,
+        LastModifiedBy = "Initial Create",
+        LastModifiedDate = dateNow,
+        Status = "Cenceled"
       }
     );
   }

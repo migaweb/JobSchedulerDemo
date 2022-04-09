@@ -48,7 +48,7 @@ namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Commands
         _logger.LogError("Job with id {id} has already been scheduled.", scheduledJob.Id);
       }
 
-      scheduledJob.JobId = await _scheduler.Schedule(scheduledJob.Name, scheduledJob.Id, 5);
+      scheduledJob.JobId = await _scheduler.Schedule(scheduledJob.Name, scheduledJob.Id, 200);
       scheduledJob.Scheduled = DateTime.Now;
       scheduledJob.StatusId = (int)ScheduledJobStatusEnum.Scheduled;
 
@@ -65,7 +65,8 @@ namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Commands
       }
       catch (Exception ex)
       {
-        await CancelJob(scheduledJob.Id);
+        if (scheduledJob.JobId != null)
+          await CancelJob(scheduledJob.JobId);
         _logger.LogError("Job could not be updated in DB: {ScheduledJobId}, Exception: {ex}", scheduledJob.Id, ex.Message);
       }
 
@@ -86,7 +87,7 @@ namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Commands
       return response;
     }
 
-    private async Task<bool> CancelJob(int id)
+    private async Task<bool> CancelJob(string id)
     {
       return await _scheduler.Cancel(id);
     }

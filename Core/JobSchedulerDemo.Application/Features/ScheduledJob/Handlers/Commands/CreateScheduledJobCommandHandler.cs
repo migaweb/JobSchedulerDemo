@@ -45,16 +45,9 @@ namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Commands
       response.ScheduledJobDto = _mapper.Map<ScheduledJobDto>(scheduledJob);
 
       QueueJob(
-      new JobMessage(response.ScheduledJobDto?.Id.ToString() ?? "Invalid jobId", response.ScheduledJobDto?.Name!));
+      new JobMessage(response.ScheduledJobDto?.Id.ToString() ?? "Invalid jobId", response.ScheduledJobDto?.Name!, false));
 
-      _pushMessageSender.SendStatus(
-        new PushMessage(
-          scheduledJob.Id,
-          scheduledJob.Name,
-          ScheduledJobStatusEnum.Created.ToString(),
-          scheduledJob.DateCreated,
-          scheduledJob.JobId, scheduledJob.Scheduled, scheduledJob.Started, scheduledJob.Completed, scheduledJob.Error
-          ));
+      PushStatus(scheduledJob, ScheduledJobStatusEnum.Created);
 
       return response;
     }
