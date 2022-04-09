@@ -22,9 +22,9 @@ builder.Services.ConfigurePushMessages(builder.Configuration);
 builder.Services.ConfigureApplicationServices();
 
 //builder.Services.ConfigureCoravelSchedulerServices();
-builder.Services.ConfigureHangfireSchedulerServices(builder.Configuration);
+//builder.Services.ConfigureHangfireSchedulerServices(builder.Configuration);
 //builder.Services.ConfigureImmediateSchedulerServices();
-//builder.Services.ConfigureQuartzSchedulerServices(builder.Configuration);
+builder.Services.ConfigureQuartzSchedulerServices(builder.Configuration);
 
 builder.Services.ConfigurePersistenceServices(builder.Configuration);
 
@@ -33,7 +33,8 @@ builder.Services.AddHealthChecks()
         builder.Configuration.GetConnectionString("JobsDbConnectionString"), 
         healthQuery: "SELECT 1",
         name: "JobsDB",
-        failureStatus: HealthStatus.Unhealthy);
+        failureStatus: HealthStatus.Unhealthy)
+  .ConfigureQuartzHealthChecks();
 //.AddRabbitMQ(
 //             "amqps://guest:guest@rabbitmq:5672",
 //             name: "RabbitMQ",

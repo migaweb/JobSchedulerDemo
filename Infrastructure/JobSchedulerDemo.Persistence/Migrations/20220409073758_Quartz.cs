@@ -1,87 +1,23 @@
-﻿
-using JobSchedulerDemo.Infrastructure.Scheduler.Quartz;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Quartz;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace JobSchedulerDemo.Scheduler.Quartz.Configuration
+#nullable disable
+
+namespace JobSchedulerDemo.Persistence.Migrations
 {
-  public static class ConfigureQuartz
+  public partial class Quartz : Migration
   {
-    public static void ConfigureQuartzSchedulerServices(this IServiceCollection services, IConfiguration configuration)
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-      services.AddScoped<Application.Contracts.Infrastructure.IScheduler, QuartzScheduler>();
+      migrationBuilder.Sql(QuartzDbTables);
+    }
 
-      // if you are using persistent job store, you might want to alter some options
-      services.Configure<QuartzOptions>(options =>
-      {
-        options.Scheduling.IgnoreDuplicates = true; // default: false
-        options.Scheduling.OverWriteExistingData = true; // default: true
-      });
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
 
-      services.AddQuartz(q =>
-      {
-        // handy when part of cluster or you want to otherwise identify multiple schedulers
-        q.SchedulerId = Environment.GetEnvironmentVariable(JobSchedulerDemo.Application.Constants.EnvironmentVariables.InstanceName) ?? "Scheduler";
-
-        // we take this from appsettings.json, just show it's possible
-        q.SchedulerName = Environment.GetEnvironmentVariable(JobSchedulerDemo.Application.Constants.EnvironmentVariables.InstanceName) ?? "Scheduler";
-
-        // as of 3.3.2 this also injects scoped services (like EF DbContext) without problems
-        q.UseMicrosoftDependencyInjectionJobFactory();
-
-        // or for scoped service support like EF Core DbContext
-        // q.UseMicrosoftDependencyInjectionScopedJobFactory();
-
-        // these are the defaults
-        q.UseSimpleTypeLoader();
-        q.UseInMemoryStore();
-
-        q.UseDefaultThreadPool(tp =>
-        {
-          tp.MaxConcurrency = 10;
-        });
-
-        // example of persistent job store using JSON serializer as an example
-
-        q.UsePersistentStore(s =>
-        {
-          s.UseProperties = true;
-          s.RetryInterval = TimeSpan.FromSeconds(15);
-          s.UseSqlServer(sqlServer =>
-          {
-            sqlServer.ConnectionString = configuration.GetConnectionString("JobsDbConnectionString");
-            // this is the default
-            sqlServer.TablePrefix = "QRTZ_";
-          });
-          s.UseJsonSerializer();
-          s.UseClustering(c =>
-          {
-            c.CheckinMisfireThreshold = TimeSpan.FromSeconds(20);
-            c.CheckinInterval = TimeSpan.FromSeconds(10);
-          });
-        });
-
-      });
-
-      // we can use options pattern to support hooking your own configuration
-      // because we don't use service registration api, 
-      // we need to manually ensure the job is present in DI
-      services.AddTransient<Contract>();
-      services.AddTransient<Invoice>();
-      services.AddTransient<Preplanning>();
-
-      // Quartz.Extensions.Hosting allows you to fire background service that handles scheduler lifecycle
-      services.AddQuartzHostedService(options =>
-      {
-        // when shutting down we want jobs to complete gracefully
-        options.WaitForJobsToComplete = true;
-      });
     }
 
     private const string QuartzDbTables = @"
-
-      USE [hangfire-webapi-db];
 GO
 
 IF OBJECT_ID(N'[dbo].[FK_QRTZ_TRIGGERS_QRTZ_JOB_DETAILS]', N'F') IS NOT NULL
