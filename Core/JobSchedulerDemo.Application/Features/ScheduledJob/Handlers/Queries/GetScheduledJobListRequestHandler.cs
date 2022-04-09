@@ -11,8 +11,8 @@ namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Queries
   : ScheduledJobHandlerBase,
   IRequestHandler<GetScheduledJobListRequest, List<ScheduledJobDto>>
   {
-    public GetScheduledJobListRequestHandler(IScheduledJobRepository scheduledJobRepository, IJobPublisher publishEndPoint, IMapper mapper)
-      : base(scheduledJobRepository, publishEndPoint, mapper) 
+    public GetScheduledJobListRequestHandler(IScheduledJobRepository scheduledJobRepository, IPushMessageSender pushMessageSender, IMapper mapper)
+      : base(scheduledJobRepository, pushMessageSender, mapper) 
     {
     }
 

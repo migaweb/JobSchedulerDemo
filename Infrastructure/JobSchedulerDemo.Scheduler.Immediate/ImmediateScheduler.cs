@@ -29,7 +29,8 @@ namespace JobSchedulerDemo.Scheduler.Immediate
 
     private async Task<string?> ScheduleJob(string jobId, string name, int timeInSeconds)
     {
-      //await Task.Delay(timeInSeconds * 1000);
+      await Task.CompletedTask;
+      //await Task.Delay(timeInSeconds);
 
       switch (name)
       {

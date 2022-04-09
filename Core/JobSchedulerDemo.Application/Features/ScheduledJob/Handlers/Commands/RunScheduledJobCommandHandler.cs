@@ -7,25 +7,15 @@ using JobSchedulerDemo.Application.Features.ScheduledJob.Requests.Commands;
 using JobSchedulerDemo.Application.Features.ScheduledJob.Responses;
 using JobSchedulerDemo.Domain.Enums;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Commands
 {
-  public class RunScheduledJobCommandHandler : IRequestHandler<RunScheduledJobCommand, RunScheduledJobResponse>
+  public class RunScheduledJobCommandHandler : ScheduledJobHandlerBase, IRequestHandler<RunScheduledJobCommand, RunScheduledJobResponse>
   {
-    private readonly IScheduledJobRepository _scheduledJobRepository;
-    private readonly IPushMessageSender _pushMessageSender;
-    private readonly IMapper _mapper;
-    private readonly ILogger<RunScheduledJobCommandHandler> _logger;
-
     public RunScheduledJobCommandHandler(
-      IScheduledJobRepository scheduledJobRepository, IPushMessageSender pushMessageSender, IMapper mapper,
-      ILogger<RunScheduledJobCommandHandler> logger)
+      IScheduledJobRepository scheduledJobRepository, IPushMessageSender pushMessageSender, IMapper mapper)
+      : base(scheduledJobRepository, pushMessageSender, mapper)
     {
-      _scheduledJobRepository = scheduledJobRepository;
-      _pushMessageSender = pushMessageSender;
-      _mapper = mapper;
-      _logger = logger;
     }
 
     public async Task<RunScheduledJobResponse> Handle(RunScheduledJobCommand request, CancellationToken cancellationToken)

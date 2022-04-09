@@ -16,12 +16,12 @@ namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Commands
   public class CreateScheduledJobCommandHandler : ScheduledJobHandlerBase, 
     IRequestHandler<CreateScheduledJobCommand, CreateScheduledJobResponse>
   {
-    private readonly IPushMessageSender _pushMessageSender;
+    private readonly IJobPublisher _publishEndPoint;
 
     public CreateScheduledJobCommandHandler(IScheduledJobRepository scheduledJobRepository, IJobPublisher publishEndPoint, IMapper mapper, IPushMessageSender pushMessageSender)
-      : base(scheduledJobRepository, publishEndPoint, mapper)  
+      : base(scheduledJobRepository, pushMessageSender, mapper)  
     {
-      _pushMessageSender = pushMessageSender;
+      _publishEndPoint = publishEndPoint;
     }
 
     public async Task<CreateScheduledJobResponse> Handle(CreateScheduledJobCommand request, CancellationToken cancellationToken)

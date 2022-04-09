@@ -12,7 +12,10 @@ public class Invoice : JobBase, IJob
 
   public async Task Execute(IJobExecutionContext context)
   {
-    await Run(context.JobDetail.JobDataMap.GetString("id"));
+    var jobId = context.JobDetail.JobDataMap.GetString("id");
+
+    if (jobId != null)
+      await Run(jobId);
   }
 
   public new async Task Run(string jobId)
