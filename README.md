@@ -1,6 +1,8 @@
 # Job Scheduler Demo
 
-A demo application for scheduling jobs. Jobs are requested from the ClientUI and sent to a JobService via RabbitMQ. 
+A demo application for evalutating job schedulers. Schedulers tested are Hangfire, Quartz and Coravel.
+
+Jobs are requested from the ClientUI and sent to a JobService via RabbitMQ. 
 
 The jobs are scheduled using Hangfire and progress are reported back to the ClientUI using a SignalRHub.
 

@@ -22,6 +22,8 @@ public class CoravelScheduler : IScheduler
   {
     await Task.CompletedTask;
 
+    // Seems not possible to cancel jobs in Coravel.
+
     return true;
   }
 

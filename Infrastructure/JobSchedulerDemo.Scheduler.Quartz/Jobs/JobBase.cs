@@ -11,9 +11,9 @@ public abstract class JobBase
     _mediator = mediator;
   }
 
-  public async Task Run(string jobId)
+  public async Task Run(string jobId, CancellationToken cancellationToken)
   {
-    await _mediator.Send(new RunScheduledJobCommand { JobId = jobId });
+    await _mediator.Send(new RunScheduledJobCommand { JobId = jobId }, cancellationToken);
   }
 }
 

@@ -12,7 +12,24 @@
         "rabbitmq": "StartWithoutDebugging",
         "jobschedulerdemo.hangfiredashboard": "StartDebugging",
         "jobschedulerdemo.signalrhub": "StartDebugging",
-        "jobschedulerdemo.clientui.server": "StartDebugging"
+        "jobschedulerdemo.clientui.server": "StartDebugging",
+        "jobschedulerdemo.jobservice2": "StartDebugging"
+      }
+    },
+    "1 inst. Docker Comp": {
+      "commandName": "DockerCompose",
+      "composeLaunchAction": "LaunchBrowser",
+      "composeLaunchServiceName": "jobschedulerdemo.clientui.server",
+      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "hangfiredb": "StartWithoutDebugging",
+        "jobschedulerdemo.clientui.server": "StartDebugging",
+        "jobschedulerdemo.hangfiredashboard": "StartDebugging",
+        "jobschedulerdemo.jobservice1": "StartDebugging",
+        "jobschedulerdemo.jobservice2": "DoNotStart",
+        "jobschedulerdemo.signalrhub": "StartDebugging",
+        "rabbitmq": "StartWithoutDebugging"
       }
     }
   }

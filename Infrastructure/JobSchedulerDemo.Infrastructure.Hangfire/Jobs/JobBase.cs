@@ -12,10 +12,11 @@ public abstract class JobBase
     _mediator = mediator;
   }
 
-  public async Task Run(PerformContext? context)
+  public async Task Run(PerformContext? context, CancellationToken cancellationToken)
   {
-    string id = context?.BackgroundJob?.Id ?? $"{DateTime.Now.Ticks}";
-    await _mediator.Send(new RunScheduledJobCommand { JobId = id });
+    if (context == null) return;
+    string id = context.BackgroundJob?.Id ?? $"{DateTime.Now.Ticks}";
+    await _mediator.Send(new RunScheduledJobCommand { JobId = id }, cancellationToken);
   }
 }
 

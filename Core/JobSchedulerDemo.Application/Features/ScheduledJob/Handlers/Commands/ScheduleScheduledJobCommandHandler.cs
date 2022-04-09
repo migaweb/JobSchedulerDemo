@@ -41,14 +41,17 @@ namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Commands
       var scheduledJob = await _scheduledJobRepository.GetAsync(request.Id);
 
       if (scheduledJob == null)
-        throw new Exception($"ScheduleJob with Id={request.Id} could not be found.");
+      {
+        _logger.LogWarning("ScheduleJob with Id={requestId} could not be found.", request.Id);
+        return response;
+      }
 
       if (scheduledJob.StatusId != (int)ScheduledJobStatusEnum.Created)
       {
         _logger.LogError("Job with id {id} has already been scheduled.", scheduledJob.Id);
       }
 
-      scheduledJob.JobId = await _scheduler.Schedule(scheduledJob.Name, scheduledJob.Id, 200);
+      scheduledJob.JobId = await _scheduler.Schedule(scheduledJob.Name, scheduledJob.Id, 10);
       scheduledJob.Scheduled = DateTime.Now;
       scheduledJob.StatusId = (int)ScheduledJobStatusEnum.Scheduled;
 

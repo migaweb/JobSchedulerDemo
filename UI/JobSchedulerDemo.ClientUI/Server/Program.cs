@@ -18,7 +18,7 @@ builder.Services.ConfigureApplicationServices();
 builder.Services.ConfigurePersistenceServices(builder.Configuration);
 builder.Services.ConfigurePushMessages(builder.Configuration);
 
-builder.Services.ConfigureQuartzSchedulerServices(builder.Configuration);
+builder.Services.ConfigureQuartzSchedulerServices(builder.Configuration, false);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages().AddNewtonsoftJson();

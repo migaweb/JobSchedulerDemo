@@ -9,8 +9,8 @@ public class Contract : JobBase
   {
   }
 
-  public new async Task Run(PerformContext? context)
+  public new async Task Run(PerformContext? context, CancellationToken cancellationToken)
   {
-    await base.Run(context);
+    await base.Run(context, cancellationToken);
   }
 }

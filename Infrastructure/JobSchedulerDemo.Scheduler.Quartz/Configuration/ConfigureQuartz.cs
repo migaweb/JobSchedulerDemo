@@ -8,7 +8,7 @@ namespace JobSchedulerDemo.Scheduler.Quartz.Configuration
 {
   public static class ConfigureQuartz
   {
-    public static void ConfigureQuartzSchedulerServices(this IServiceCollection services, IConfiguration configuration)
+    public static void ConfigureQuartzSchedulerServices(this IServiceCollection services, IConfiguration configuration, bool useHostedService = true)
     {
       services.AddScoped<Application.Contracts.Infrastructure.IScheduler, QuartzScheduler>();
 
@@ -21,21 +21,19 @@ namespace JobSchedulerDemo.Scheduler.Quartz.Configuration
 
       services.AddQuartz(q =>
       {
+        // Scheduler id should be different when running in a cluster.
         // handy when part of cluster or you want to otherwise identify multiple schedulers
         q.SchedulerId = Environment.GetEnvironmentVariable(JobSchedulerDemo.Application.Constants.EnvironmentVariables.InstanceName) ?? "Scheduler";
 
+        // Scheduler name must be the same when running in a cluster.
         // we take this from appsettings.json, just show it's possible
-        q.SchedulerName = Environment.GetEnvironmentVariable(JobSchedulerDemo.Application.Constants.EnvironmentVariables.InstanceName) ?? "Scheduler";
+        q.SchedulerName = configuration["QuartzSchedulerName"];
 
         // as of 3.3.2 this also injects scoped services (like EF DbContext) without problems
         q.UseMicrosoftDependencyInjectionJobFactory();
 
-        // or for scoped service support like EF Core DbContext
-        // q.UseMicrosoftDependencyInjectionScopedJobFactory();
-
         // these are the defaults
         q.UseSimpleTypeLoader();
-        q.UseInMemoryStore();
 
         q.UseDefaultThreadPool(tp =>
         {
@@ -58,7 +56,7 @@ namespace JobSchedulerDemo.Scheduler.Quartz.Configuration
           s.UseClustering(c =>
           {
             c.CheckinMisfireThreshold = TimeSpan.FromSeconds(20);
-            c.CheckinInterval = TimeSpan.FromSeconds(10);
+            c.CheckinInterval = TimeSpan.FromSeconds(1);
           });
         });
 
@@ -71,12 +69,14 @@ namespace JobSchedulerDemo.Scheduler.Quartz.Configuration
       services.AddTransient<Invoice>();
       services.AddTransient<Preplanning>();
 
-      // Quartz.Extensions.Hosting allows you to fire background service that handles scheduler lifecycle
-      services.AddQuartzHostedService(options =>
-      {
-        // when shutting down we want jobs to complete gracefully
-        options.WaitForJobsToComplete = true;
-      });
+      if (useHostedService)
+        // Quartz.Extensions.Hosting allows you to fire background service that handles scheduler lifecycle
+        services.AddQuartzHostedService(options =>
+        {
+          // when shutting down we want jobs to complete gracefully
+          options.WaitForJobsToComplete = true;
+          options.AwaitApplicationStarted = true;
+        });
     }
   }
 }

@@ -38,15 +38,15 @@ namespace JobSchedulerDemo.Infrastructure.Hangfire
       switch (name)
       {
         case nameof(Preplanning):
-          jobId = BackgroundJob.Schedule<Preplanning>(p => p.Run(null), TimeSpan.FromSeconds(timeInSeconds));
+          jobId = BackgroundJob.Schedule<Preplanning>(p => p.Run(null, CancellationToken.None), TimeSpan.FromSeconds(timeInSeconds));
           break;
 
         case nameof(Contract):
-          jobId = BackgroundJob.Schedule<Contract>(c => c.Run(null), TimeSpan.FromSeconds(timeInSeconds));
+          jobId = BackgroundJob.Schedule<Contract>(c => c.Run(null, CancellationToken.None), TimeSpan.FromSeconds(timeInSeconds));
           break;
 
         case nameof(Invoice):
-          jobId = BackgroundJob.Schedule<Invoice>(i => i.Run(null), TimeSpan.FromSeconds(timeInSeconds));
+          jobId = BackgroundJob.Schedule<Invoice>(i => i.Run(null, CancellationToken.None), TimeSpan.FromSeconds(timeInSeconds));
           break;
         default:
           _logger.LogWarning("{Name} is an invalid job.", name);

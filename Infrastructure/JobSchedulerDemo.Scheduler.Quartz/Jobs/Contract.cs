@@ -12,13 +12,13 @@ public class Contract : JobBase, IJob
   public async Task Execute(IJobExecutionContext context)
   {
     var jobId = context.JobDetail.JobDataMap.GetString("id");
-
+    
     if (jobId != null)
-      await Run(jobId);
+      await Run(jobId, context.CancellationToken);
   }
 
-  public new async Task Run(string jobId)
+  public new async Task Run(string jobId, CancellationToken cancellationToken)
   {
-    await base.Run(jobId);
+    await base.Run(jobId, cancellationToken);
   }
 }

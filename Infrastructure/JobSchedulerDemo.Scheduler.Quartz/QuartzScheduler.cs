@@ -28,21 +28,31 @@ namespace JobSchedulerDemo.Infrastructure.Scheduler.Quartz
 
     private async Task<bool> CancelJob(string jobId)
     {
-      var schedulers = await _schedulerFactory.GetAllSchedulers();
+      var jobKey = new JobKey(jobId, jobId);
+      var scheduler = await _schedulerFactory.GetScheduler();
 
-      foreach (var scheduler in schedulers)
+      if (await scheduler.CheckExists(jobKey))
       {
-        if (await scheduler.DeleteJob(new JobKey(jobId, jobId)))
+        // Method is not cluster aware,
+        // so no cancellation occurs if the job is running on another instance. :(
+        var interrupted = await scheduler.Interrupt(jobKey);
+        
+        if (!interrupted)
+        {
+          try
+          {
+            return await scheduler.DeleteJob(jobKey);
+          }
+          catch (Exception ex)
+          {
+            _logger.LogError(ex.Message);
+          }
+        }
+        else
         {
           return true;
         }
       }
-
-      //if (await _scheduler.CheckExists(new JobKey(jobId, jobId)))
-      //{
-      //  await _scheduler.PauseJob(new JobKey(jobId, jobId));
-      //  return await _scheduler.DeleteJob(new JobKey(jobId, jobId));
-      //}
 
       return false;
     }
