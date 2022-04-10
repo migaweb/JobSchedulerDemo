@@ -48,12 +48,15 @@ namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Commands
       await Task.Delay((jobTime * 1000) / 4, cancellationToken);
       PushStatus(job, $"25% running, time left {jobTime * 0.75m} s");
       if (await CheckIfCanceled(job, cancellationToken)) return response;
+      
       await Task.Delay((jobTime * 1000) / 4, cancellationToken);
       PushStatus(job, $"50% running, time left {jobTime * 0.5m} s");
       if (await CheckIfCanceled(job, cancellationToken)) return response;
+      
       await Task.Delay((jobTime * 1000) / 4, cancellationToken);
       PushStatus(job, $"75% running, time left {jobTime * 0.25m} s");
       if (await CheckIfCanceled(job, cancellationToken)) return response;
+      
       await Task.Delay((jobTime * 1000) / 4, cancellationToken);
 
       job.Completed = DateTime.Now;
@@ -81,7 +84,9 @@ namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Commands
 
     private async Task<bool> CheckIfCanceled(Domain.ScheduledJob job, CancellationToken cancellationToken)
     {
-      if (cancellationToken.IsCancellationRequested)
+      // With hangfire can use either approach CancellationToken/JobCanceled even in a cluster.
+      // With Quartz running in a cluster JobCanceled is necessary, or similar approach
+      if (cancellationToken.IsCancellationRequested || await JobCanceled(job.Id))
       {
         PushStatus(job, "IsCancellationRequested");
 
@@ -93,17 +98,12 @@ namespace JobSchedulerDemo.Application.Features.ScheduledJob.Handlers.Commands
 
         PushStatus(job, ScheduledJobStatusEnum.Canceled);
 
-        _logger.LogInformation("Job with jobId {jobId] has been cancled!", job.JobId);
+        _logger.LogInformation("Job with jobId {jobId] has been cancled!", job.Id);
 
         return true;
       }
 
       return false;
-    }
-
-    private void CancelRunningJob(Domain.ScheduledJob job)
-    {
-      PushStatus(job, "The job is being requested to cancel!!!!!!!");
     }
   }
 }

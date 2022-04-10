@@ -79,7 +79,7 @@ public class ScheduledJobStatusConfiguration : IEntityTypeConfiguration<Schedule
         Id = 8,
         LastModifiedBy = "Initial Create",
         LastModifiedDate = dateNow,
-        Status = "Cenceled"
+        Status = "Canceled"
       }
     );
   }

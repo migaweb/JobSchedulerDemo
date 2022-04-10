@@ -13,6 +13,11 @@ namespace JobSchedulerDemo.Persistence.Repositories
       _dbContext = dbContext;
     }
 
+    public async Task<ScheduledJob?> GetByJobByIdNoTrackingAsync(int id)
+      => await _dbContext.ScheduledJobs
+                         .AsNoTracking()
+                         .FirstOrDefaultAsync(e => e.Id == id);   
+
     public async Task<IEnumerable<ScheduledJob>> GetAllWithDetailsAsync() 
       => await _dbContext.ScheduledJobs.Include(e => e.Status).ToListAsync();
 

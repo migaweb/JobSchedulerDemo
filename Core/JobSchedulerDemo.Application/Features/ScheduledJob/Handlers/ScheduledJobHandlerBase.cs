@@ -19,6 +19,19 @@ public abstract class ScheduledJobHandlerBase
     _mapper = mapper;
   }
 
+  protected async Task<bool> JobCanceled(int id)
+  {
+    // Need to use no tracking since EF caches queries and the job is already loaded.
+    var job = await _scheduledJobRepository.GetByJobByIdNoTrackingAsync(id);
+
+    // or false? probably subsequent updates in handler will crash.
+    if (job == null) return true;
+
+    return
+      job.StatusId == (int)ScheduledJobStatusEnum.Cancelling;
+
+  }
+
   protected void PushStatus(Domain.ScheduledJob job, ScheduledJobStatusEnum status)
   {
     PushStatus(job, status.ToString());

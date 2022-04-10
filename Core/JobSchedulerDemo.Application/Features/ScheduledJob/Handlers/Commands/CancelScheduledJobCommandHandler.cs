@@ -37,27 +37,32 @@ public class CancelScheduledJobCommandHandler : ScheduledJobHandlerBase,
 
     var oldStatus = (ScheduledJobStatusEnum)job.StatusId;
 
-    await UpdateStatus(job, ScheduledJobStatusEnum.Cancelling);
-    PushStatus(job, ScheduledJobStatusEnum.Cancelling);
+    if (oldStatus == ScheduledJobStatusEnum.Running)
+    {
+      // Running job will be notified and perform graceful cancellation
+      // Have to handle race condition, the job might just be started!!!!!
+      await UpdateStatus(job, ScheduledJobStatusEnum.Cancelling, "Cancelling requested");
+      PushStatus(job, ScheduledJobStatusEnum.Cancelling);
+    }
+    else
+    {
+      await UpdateStatus(job, ScheduledJobStatusEnum.Canceled, "Job canceled by user.");
+      PushStatus(job, ScheduledJobStatusEnum.Canceled);
+    }
 
     if (job.JobId != null)
     {
       var canceled = await _scheduler.Cancel(job.JobId);
 
-      if (canceled)
+      if (!canceled)
       {
-        await UpdateStatus(job, ScheduledJobStatusEnum.Canceled);
-        PushStatus(job, ScheduledJobStatusEnum.Canceled);
-      }
-      else
-      {
-        await UpdateStatus(job, oldStatus);
+        await UpdateStatus(job, oldStatus, "Scheduler could not cancel.");
         PushStatus(job, "Could not cancel");
       }
     }
     else
     {
-      await UpdateStatus(job, oldStatus);
+      await UpdateStatus(job, oldStatus, "Job does not have a job id.");
       PushStatus(job, $"Invalid job id");
       return response;
     }
@@ -67,9 +72,10 @@ public class CancelScheduledJobCommandHandler : ScheduledJobHandlerBase,
     return response;
   }
 
-  private async Task UpdateStatus(Domain.ScheduledJob job, ScheduledJobStatusEnum status)
+  private async Task UpdateStatus(Domain.ScheduledJob job, ScheduledJobStatusEnum status, string message)
   {
     job.StatusId = (int)status;
+    job.Error = message;
 
     await _scheduledJobRepository.UpdateAsync(job);
   }
