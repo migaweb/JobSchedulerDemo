@@ -22,9 +22,9 @@ builder.Services.ConfigurePushMessages(builder.Configuration);
 builder.Services.ConfigureApplicationServices();
 
 //builder.Services.ConfigureCoravelSchedulerServices();
-//builder.Services.ConfigureHangfireSchedulerServices(builder.Configuration);
+builder.Services.ConfigureHangfireSchedulerServices(builder.Configuration);
 //builder.Services.ConfigureImmediateSchedulerServices();
-builder.Services.ConfigureQuartzSchedulerServices(builder.Configuration);
+//builder.Services.ConfigureQuartzSchedulerServices(builder.Configuration);
 
 builder.Services.ConfigurePersistenceServices(builder.Configuration);
 

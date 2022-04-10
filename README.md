@@ -4,7 +4,16 @@ A demo application for evalutating job schedulers. Schedulers tested are Hangfir
 
 Jobs are requested from the ClientUI and sent to a JobService via RabbitMQ. 
 
-The jobs are scheduled using Hangfire and progress are reported back to the ClientUI using a SignalRHub.
+The jobs are scheduled using a scheduler and progress are reported back to the ClientUI using a SignalRHub.
+
+To change the active scheduler, uncomment any of the scheduler configurations for the JobScheduler app in the Program.cs file:
+
+```csharp
+//builder.Services.ConfigureCoravelSchedulerServices();
+builder.Services.ConfigureHangfireSchedulerServices(builder.Configuration);
+//builder.Services.ConfigureImmediateSchedulerServices();
+//builder.Services.ConfigureQuartzSchedulerServices(builder.Configuration);
+```
 
 ## Introduction
 
