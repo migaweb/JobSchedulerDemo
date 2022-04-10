@@ -6,6 +6,11 @@ Jobs are requested from the ClientUI and sent to a JobService via RabbitMQ.
 
 The jobs are scheduled using a scheduler and progress are reported back to the ClientUI using a SignalRHub.
 
+## How to start
+1. Install [Docker](https://www.docker.com/).
+2. Open the solution in Visual Studio (2022)
+3. Make the docker-compose project as Set as Startup Project in Visual Studio then click the debug button (or F5).
+
 To change the active scheduler, uncomment any of the scheduler configurations for the JobScheduler app in the Program.cs file:
 
 ```csharp
@@ -15,32 +20,28 @@ builder.Services.ConfigureHangfireSchedulerServices(builder.Configuration);
 //builder.Services.ConfigureQuartzSchedulerServices(builder.Configuration);
 ```
 
-## Introduction
+## Repo
 
 **Links**
 - [GitHub](https://github.com/migaweb/JobSchedulerDemo)
 
 ## Technologies used
 - Blazor
-- SignalR
-- Hangfire
-- Coravel PRO
-- Quartz
-- MassTransit
-- RabbitMQ
-- Mediatr
 - Clean Architecture
+- Coravel PRO
+- Hangfire
+- MassTransit
+- Mediatr
+- Quartz
+- RabbitMQ
+- SignalR
+
 
 ## Architecture
 1. JobService: Receives jobs via RabbitMQ and schedules the job with Hangfire. Can use multiple instances (configured in docker compose files).
 2. ClientUI: Blazor application for triggering jobs and view its progress.
 3. HangfireDashboard: The Hangfire dashboard for viewing scheduled jobs.
 4. SignalRHub: Used for sending push messages with job status back to ClientUI.
-
-## How to start
-1. Install [Docker](https://www.docker.com/).
-2. Open the solution in Visual Studio (2022)
-3. Make the docker-compose project as Set as Startup Project in Visual Studio then click the debug button (or F5).
 
 ## Database migrations
 Using Powershell.
