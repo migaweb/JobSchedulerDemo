@@ -6,43 +6,68 @@ using Microsoft.Extensions.DependencyInjection;
 namespace JobSchedulerDemo.Infrastructure.Configuration;
 public static class ConfigureMassTransit
 {
-  public static void ConfigureMassTransitJobConsumer(this IServiceCollection services, string rabbitMqHost)
+  public static void ConfigureMassTransitJobConsumer(this IServiceCollection services, 
+    string? rabbitMqHost, string? azureServiceBus)
   {
     services.AddScoped<IJobPublisher, JobPublisher>();
     services.AddMassTransit(configure =>
     {
       configure.AddConsumers(typeof(JobConsumer));
 
-      configure.UsingRabbitMq((context, configurator) =>
+      if (!string.IsNullOrEmpty(azureServiceBus))
       {
-        configurator.Host(rabbitMqHost);
-        configurator.ConfigureEndpoints(context);
-        configurator.UseMessageRetry(retryConfigurator =>
+        configure.UsingAzureServiceBus((context, cfg) =>
         {
-          retryConfigurator.Interval(3, TimeSpan.FromSeconds(5));
+          cfg.Host(azureServiceBus);
+          cfg.ConfigureEndpoints(context);
         });
-      });
+      }
+
+      if (!string.IsNullOrEmpty(rabbitMqHost))
+      {
+        configure.UsingRabbitMq((context, configurator) =>
+        {
+          configurator.Host(rabbitMqHost);
+          configurator.ConfigureEndpoints(context);
+          configurator.UseMessageRetry(retryConfigurator =>
+          {
+            retryConfigurator.Interval(3, TimeSpan.FromSeconds(5));
+          });
+        });
+      }
 
       services.AddMassTransitHostedService();
     });
   }
 
-  public static void ConfigureMassTransitJobPublisher(this IServiceCollection services, string rabbitMqHost)
+  public static void ConfigureMassTransitJobPublisher(this IServiceCollection services, 
+    string? rabbitMqHost, string? azureServiceBus)
   {
     services.AddScoped<IJobPublisher, JobPublisher>();
 
     services.AddMassTransit(configure =>
     {
-      configure.UsingRabbitMq((context, configurator) =>
+      if (!string.IsNullOrEmpty(azureServiceBus))
       {
-        configurator.Host(rabbitMqHost);
-        configurator.ConfigureEndpoints(context);
-        configurator.UseMessageRetry(retryConfigurator =>
+        configure.UsingAzureServiceBus((context, cfg) =>
         {
-          retryConfigurator.Interval(3, TimeSpan.FromSeconds(5));
+          cfg.Host(azureServiceBus);
+          cfg.ConfigureEndpoints(context);
         });
-      });
+      }
 
+      if (!string.IsNullOrEmpty(rabbitMqHost))
+      {
+        configure.UsingRabbitMq((context, configurator) =>
+        {
+          configurator.Host(rabbitMqHost);
+          configurator.ConfigureEndpoints(context);
+          configurator.UseMessageRetry(retryConfigurator =>
+          {
+            retryConfigurator.Interval(3, TimeSpan.FromSeconds(5));
+          });
+        });
+      }
 
       services.AddMassTransitHostedService();
     });

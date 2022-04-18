@@ -50,6 +50,7 @@ services:
     ports:
       - "8011:80"
     volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
   jobschedulerdemo.jobservice2:
@@ -62,6 +63,7 @@ services:
     ports:
       - "8012:80"
     volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
   jobschedulerdemo.clientui.server:

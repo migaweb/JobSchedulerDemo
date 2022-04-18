@@ -15,7 +15,22 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 
-builder.Services.ConfigureMassTransitJobConsumer(builder.Configuration["RabbitMQHost"]);
+bool useAzureServiceBus = true;
+
+if (useAzureServiceBus)
+{
+  builder.Services.ConfigureMassTransitJobConsumer(
+  null,//builder.Configuration["RabbitMQHost"],
+  builder.Configuration["AzureServiceBus"]
+  );
+}
+else
+{
+  builder.Services.ConfigureMassTransitJobConsumer(
+  builder.Configuration["RabbitMQHost"],
+  null
+  );
+}
 
 builder.Services.ConfigurePushMessages(builder.Configuration);
 
@@ -35,12 +50,6 @@ builder.Services.AddHealthChecks()
         name: "JobsDB",
         failureStatus: HealthStatus.Unhealthy)
   .ConfigureQuartzHealthChecks();
-//.AddRabbitMQ(
-//             "amqps://guest:guest@rabbitmq:5672",
-//             name: "RabbitMQ",
-//             failureStatus: HealthStatus.Healthy,
-//             timeout: TimeSpan.FromSeconds(1),
-//             tags: new string[] { "services" });
 
 WebApplication app = builder.Build();
 

@@ -11,7 +11,22 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.ConfigureMassTransitJobPublisher(builder.Configuration["RabbitMQHost"]);
+bool useAzureServiceBus = true;
+
+if (useAzureServiceBus)
+{
+  builder.Services.ConfigureMassTransitJobPublisher(
+  null,//builder.Configuration["RabbitMQHost"],
+  builder.Configuration["AzureServiceBus"]
+  );
+}
+else
+{
+  builder.Services.ConfigureMassTransitJobPublisher(
+  builder.Configuration["RabbitMQHost"],
+  null
+  );
+}
 
 builder.Services.ConfigureApplicationServices();
 
